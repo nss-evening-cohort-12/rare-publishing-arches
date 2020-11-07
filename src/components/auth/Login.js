@@ -12,16 +12,12 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch("http://127.0.0.1:8088/login", {
-            method: "POST",
+        return fetch('http://127.0.0.1:8088/user?email=' + email.current.value, {
+            method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
-            body: JSON.stringify({
-                username: email.current.value,
-                password: password.current.value
-            })
         })
             .then(res => res.json())
             .then(res => {
