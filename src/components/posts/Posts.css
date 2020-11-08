@@ -1,0 +1,21 @@
+.postContainer {
+    margin: 0 5rem;
+}
+
+.posts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+
+  .post {
+      flex-basis: 24%;
+      margin: 0.5rem 1em;
+      padding: 0.5rem 1rem;
+      border: 1px solid goldenrod;
+  }
+
+  .posts__search {
+      width: 25rem;
+  }
