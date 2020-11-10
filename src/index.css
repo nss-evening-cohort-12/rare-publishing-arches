@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Comfortaa|Patua+One");
+
 /*Typography
+
 --------------------------------------------------------------*/
 
 body, button, input, select, textarea {
@@ -199,4 +201,3 @@ code {
 .icon-send:before {
 	content: "🔓";
 }
-
