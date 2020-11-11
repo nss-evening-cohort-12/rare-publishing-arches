@@ -6,8 +6,8 @@ import { ProfileContext } from "../auth/AuthProvider"
 export const PostForm = (props) => {
     // Use the required context providers for data
     const { addPost, posts, updatePost, getPosts } = useContext(PostContext)
-    const { profile, getProfile } = useContext(ProfileContext)
-
+    // const { profile, getProfile } = useContext(ProfileContext)
+    
     // Component state
     const [post, setPost] = useState({})
 
@@ -50,35 +50,36 @@ export const PostForm = (props) => {
     }, [posts])
 
 
-    const constructNewPost = () => {
-        const locationId = parseInt(post.locationId)
-
-        if (locationId === 0) {
-            window.alert("Please select a location")
+    const constructNewPost = () => {  
+        const now = new Date ();     
+        
+        if (editMode) {
+            // PUT
+            updatePost({
+                id: post.id,
+                title: post.title,
+                content: post.content,
+                categoryId: 1,
+                publicationDate: now,
+                // userId: parseInt(localStorage.getItem("rare_user_id")),
+                userId: 1,
+                headerImgUrl: post.headerImgUrl
+            })
+                .then(() => props.history.push("/posts"))
         } else {
-            if (editMode) {
-                // PUT
-                updatePost({
-                    id: post.id,
-                    name: post.name,
-                    breed: post.breed,
-                    locationId: locationId,
-                    treatment: post.treatment,
-                    customerId: parseInt(localStorage.getItem("kennel_customer"))
-                })
-                    .then(() => props.history.push("/posts"))
-            } else {
-                // POST
-                addPost({
-                    name: post.name,
-                    breed: post.breed,
-                    locationId: locationId,
-                    treatment: post.treatment,
-                    customerId: parseInt(localStorage.getItem("kennel_customer"))
-                })
-                    .then(() => props.history.push("/posts"))
-            }
+            // POST
+            addPost({
+                title: post.title,
+                content: post.content,
+                categoryId: 1,
+                publicationDate: now,
+                // userId: parseInt(localStorage.getItem("rare_user_id")),
+                userId: 1,
+                headerImgUrl: post.headerImgUrl
+            })
+                .then(() => props.history.push("/posts"))
         }
+        
     }
 
     return (
@@ -97,11 +98,19 @@ export const PostForm = (props) => {
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="content">Post content: </label>
-                    <input type="text" name="content" required className="form-control"
-                        placeholder="Post content"
-                        defaultValue={post.content}
-                        onChange={handleControlledInputChange}
-                    />
+                    <textarea type="text" name="content" required className="form-control"
+                        value={post.content}
+                        onChange={handleControlledInputChange}>
+                    </textarea>
+                </div>
+            </fieldset>
+            <fieldset>
+                <div className="form-group">
+                    <label htmlFor="headerImgUrl">Header Img Url: </label>
+                    <input type="text" name="headerImgUrl" className="form-control"
+                        defaultValue={post.header_img_url}
+                        onChange={handleControlledInputChange}>
+                    </input>
                 </div>
             </fieldset>
             {/* <fieldset>
@@ -119,16 +128,7 @@ export const PostForm = (props) => {
                         ))}
                     </select>
                 </div>
-            </fieldset> */}
-            <fieldset>
-                <div className="form-group">
-                    <label htmlFor="treatment">Treatments: </label>
-                    <textarea type="text" name="treatment" className="form-control"
-                        value={post.treatment}
-                        onChange={handleControlledInputChange}>
-                    </textarea>
-                </div>
-            </fieldset>
+            </fieldset> */}                        
             <button type="submit"
                 onClick={evt => {
                     evt.preventDefault()
