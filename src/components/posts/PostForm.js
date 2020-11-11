@@ -99,6 +99,7 @@ export const PostForm = (props) => {
                 <div className="form-group">
                     <label htmlFor="content">Post content: </label>
                     <textarea type="text" name="content" required className="form-control"
+                        placeholder="Post content"
                         value={post.content}
                         onChange={handleControlledInputChange}>
                     </textarea>
@@ -108,6 +109,7 @@ export const PostForm = (props) => {
                 <div className="form-group">
                     <label htmlFor="headerImgUrl">Header Img Url: </label>
                     <input type="text" name="headerImgUrl" className="form-control"
+                        placeholder="Header Img Url"
                         defaultValue={post.header_img_url}
                         onChange={handleControlledInputChange}>
                     </input>
@@ -135,7 +137,7 @@ export const PostForm = (props) => {
                     constructNewPost()
                 }}
                 className="btn btn-primary">
-                {editMode ? "Save Updates" : "Make Reservation"}
+                {editMode ? "Save Updates" : "Submit New Post"}
             </button>
         </form>
     )
