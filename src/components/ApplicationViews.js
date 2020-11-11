@@ -5,6 +5,8 @@ import { PostSearch } from "./posts/PostSearch.js"
 import { PostProvider } from "./posts/PostProvider.js"
 import { PostList } from "./posts/PostList.js"
 import { PostForm } from "./posts/PostForm.js"
+import { TagProvider } from "./tags/TagProvider.js"
+import { TagList } from "./tags/TagList.js"
 
 
 export const ApplicationViews = () => {
@@ -41,6 +43,16 @@ export const ApplicationViews = () => {
                             props => <PostForm {...props} />
                         } />
             </PostProvider>
+            <TagProvider>
+                <Route exact path="/tags" render={() => {
+                            return <>
+                                <main className="tagsContainer">
+                                    <h1>Available Tags</h1>
+                                    <TagList />
+                                </main>
+                            </>
+                        }} />
+            </TagProvider>
         </main>
     </>
 }
