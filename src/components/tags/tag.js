@@ -1,9 +1,10 @@
 import React from "react"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./tag.css"
 
-export default ({tag}) => (
+export default (props) => (
   <div className="tags">
-    <h5>{tag.name} <FontAwesomeIcon icon="fatrash"></FontAwesomeIcon></h5>
+    <div className="tagname">{props.tag.name}</div>
+    <div className="tagicon"><i className="far fa-trash-alt" id={props.tag.id} onClick={props.deleteATag}></i></div>
+    <div className="tagicon"><i className="fas fa-pencil-alt" id={props.tag.id} data-tagname={props.tag.name} onClick={props.editATag} ></i></div>
   </div>
 )
