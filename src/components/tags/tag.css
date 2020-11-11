@@ -1,0 +1,27 @@
+.tags {
+  background-color: lightslategrey;
+  color: white;
+  border-radius: 500px;
+  width: 20rem;
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  height: 1rem;
+  padding: .5rem;
+  margin: .5rem;
+}
+
+.tagname {
+  margin-right: auto;
+}
+
+.tagicon {
+  margin: 0 5px 0 5px;
+}
+
+.allTags {
+  margin: 5vw 0 0 0;
+}
