@@ -1,0 +1,27 @@
+.categories {
+  background-color: lightskyblue;
+  color: black;
+  border-radius: 500px;
+  width: 20rem;
+  text-align: center;
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  height: 1rem;
+  padding: .5rem;
+  margin: .5rem;
+}
+
+.categoryName {
+  margin-right: auto;
+}
+
+.categoryIcon {
+  margin: 0 5px 0 5px;
+}
+
+.allCategories {
+  margin: 5vw 0 0 0;
+}
