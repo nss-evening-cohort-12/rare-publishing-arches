@@ -7,6 +7,8 @@ import { PostList } from "./posts/PostList.js"
 import { PostForm } from "./posts/PostForm.js"
 import { TagProvider } from "./tags/TagProvider.js"
 import { TagList } from "./tags/TagList.js"
+import { CategoryProvider} from './categories/CategoryProvider.js'
+import { CategoryList} from './categories/CategoryList'
 
 
 export const ApplicationViews = () => {
@@ -53,6 +55,16 @@ export const ApplicationViews = () => {
                             </>
                         }} />
             </TagProvider>
+            <CategoryProvider>
+                <Route exact path='/categories' render={() => {
+                    return <>
+                        <main className='categoriesContainer'>
+                            <h1>Categories</h1>
+                            <CategoryList />
+                        </main>
+                    </>
+                }} />
+            </CategoryProvider>
         </main>
     </>
 }
