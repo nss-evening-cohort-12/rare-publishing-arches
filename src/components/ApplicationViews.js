@@ -17,6 +17,7 @@ export const ApplicationViews = () => {
             margin: "5rem 2rem",
             lineHeight: "1.75rem"
         }}>
+            <TagProvider>
             <PostProvider>
                         <Route exact path="/">
                             <PostList />
@@ -45,7 +46,6 @@ export const ApplicationViews = () => {
                             props => <PostForm {...props} />
                         } />
             </PostProvider>
-            <TagProvider>
                 <Route exact path="/tags" render={() => {
                             return <>
                                 <main className="tagsContainer">

@@ -1,21 +1,9 @@
-import React, { useContext, useEffect } from "react"
-import { TagContext } from "./TagProvider"
-import Tag from "./tag"
+import React from "react"
+import "./tag.css"
 
-export const PostTagList = (props) => {
-  const { postTags, getTagsByPostId } = useContext(TagContext)
-
-  useEffect(() => {
-    getTagsByPostId(props.postId)
-  }, [])
-
-  return (
-    <React.Fragment>
-      <div className="postTags">
-        {
-          postTags.map(postTag => <Tag key={postTag.id} postTag={postTag} />)
-        }
-      </div>
-    </React.Fragment>
-  )
-}
+export default (props) => (
+  <div className="tags">
+    <div className="tagname">{props.postTag.name}</div>
+    <div className="tagicon"><i className="far fa-trash-alt" id={props.postTag.id} data-postid={props.postTag.postId} onClick={props.deleteAPostTag}></i></div>
+  </div>
+)
