@@ -29,6 +29,17 @@ export const TagProvider = (props) => {
         .then(getTags)
   }
 
+  const createPostTag = posttag => {
+    return fetch("http://localhost:8088/posttags", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(posttag)
+    })
+        .then(() => getTagsByPostId(posttag.post_id))
+  }
+
   const updateTag = tag => {
     return fetch(`http://localhost:8088/tags/${tag.id}`, {
         method: "PUT",
@@ -56,7 +67,7 @@ export const TagProvider = (props) => {
 
   return (
     <TagContext.Provider value={{
-      tags, postTags, getTags, getTagsByPostId, createTag, deleteTag, updateTag, deletePostTag
+      tags, postTags, getTags, getTagsByPostId, createTag, deleteTag, updateTag, deletePostTag, createPostTag
     }}>
       {props.children}
     </TagContext.Provider>
