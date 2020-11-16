@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react"
 import { PostContext } from "./PostProvider"
+import { PostTagList } from "../tags/PostTagList"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
@@ -18,6 +19,8 @@ export const PostDetails = (props) => {
             <h3 className="post__title">{post.title}</h3>
             <div className="post__email">{post.content}</div>
             {/* <div className="post__owner">User: {post.first_name.name}</div> */}
+
+            {post.id && <PostTagList postId={post.id} />}
 
             <button onClick={() => releasePost(post.id).then(() => props.history.push("/posts"))} >Release Post</button>
 

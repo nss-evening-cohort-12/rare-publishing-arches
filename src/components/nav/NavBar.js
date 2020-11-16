@@ -13,14 +13,10 @@ export const NavBar = () => {
             </li>
             <li className="navbar__item">
                 <Link className="navbar__link" to="/posts">Posts</Link>
-<<<<<<< Updated upstream
             </li>  
             <li className="navbar__item">
                 <Link className="navbar__link" to="/tags">Tags</Link>
             </li>           
-=======
-            </li>
->>>>>>> Stashed changes
             <li className="navbar__item">  
                 <Link className="navbar__link" to="/categories">Categories</Link>
             </li>
