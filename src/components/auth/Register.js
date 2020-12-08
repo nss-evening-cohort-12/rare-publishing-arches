@@ -1,6 +1,5 @@
 import React, { useRef } from "react"
 import { Link } from "react-router-dom"
-import "./Auth.css"
 
 export const Register = (props) => {
     const firstName = useRef()
