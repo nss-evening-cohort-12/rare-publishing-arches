@@ -5,10 +5,12 @@ export const Register = (props) => {
     const firstName = useRef()
     const lastName = useRef()
     const email = useRef()
-    const displayName = useRef()
+    const username = useRef()
     const password = useRef()
     const verifyPassword = useRef()
     const passwordDialog = useRef()
+    const bio = useRef()
+    const profileUrl = useRef()
 
     const handleRegister = (e) => {
         e.preventDefault()
@@ -17,8 +19,10 @@ export const Register = (props) => {
             const newUser = {
                 "first_name": firstName.current.value,
                 "last_name": lastName.current.value,
-                "display_name": displayName.current.value,
                 "email": email.current.value,
+                "username": username.current.value,
+                "bio": bio.current.value,
+                "profile_image_url": profileUrl.current.value,
             }
 
             return fetch("http://127.0.0.1:8088/user", {
@@ -42,48 +46,34 @@ export const Register = (props) => {
     }
 
     return (
-        <main style={{ textAlign: "center" }}>
-
+        <main className="container-md vh-100">
             <dialog className="dialog dialog--password" ref={passwordDialog}>
                 <div>Passwords do not match</div>
-                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
+                    <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
             </dialog>
-
+            <header className="mt-5 text-center">
+                <h1>Rare</h1>
+            </header>
             <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Register an account</h1>
-                <fieldset>
-                    <label htmlFor="firstName"> First Name </label>
-                    <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="lastName"> Last Name </label>
-                    <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputEmail"> Email address </label>
-                    <input ref={email} type="email" name="email" className="form-control" placeholder="Email address" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="displayName"> Display Name </label>
-                    <input ref={displayName} type="text" name="displayName" className="form-control" placeholder="Display name" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="inputPassword"> Password </label>
-                    <input ref={password} type="password" name="password" className="form-control" placeholder="Password" required />
-                </fieldset>
-                <fieldset>
-                    <label htmlFor="verifyPassword"> Verify Password </label>
-                    <input ref={verifyPassword} type="password" name="verifyPassword" className="form-control" placeholder="Verify password" required />
-                </fieldset>
-                <fieldset style={{
-                    textAlign: "center"
-                }}>
-                    <button className="btn btn-1 btn-sep icon-send" type="submit">Register</button>
-                </fieldset>
+                <div className="d-flex flex-row justify-content-center align-items-center mt-5">
+                    <div className="d-flex flex-column w-100 text-center mr-5">
+                        <img className="mb-5 img-fluid" src="https://via.placeholder.com/300x200" />
+                        <input ref={firstName} name="firstName" type="text" id="register--first-name" className="form-control mb-5" placeholder="First Name" required autoFocus />
+                        <input ref={lastName} name="lastname" type="text" id="register--last-name" className="form-control mb-5" placeholder="Last Name" required />
+                        <input ref={email} name="email" type="email" id="register--email" className="form-control mb-5" placeholder="Email" required />
+                    </div>
+                    <div className="d-flex flex-column w-100 text-center">
+                        <input ref={username} name="username" type="text" id="register--username" className="form-control mb-5" placeholder="Username" required />
+                        <input ref={password} name="password" type="password" id="register--password" className="form-control mb-5" placeholder="Password" required />
+                        <input ref={verifyPassword} name="verifyPassword" type="password" id="register--verify-password" className="form-control mb-5" placeholder="Verify Password" required />
+                        <input ref={profileUrl} name="profileUrl" type="text" id="register--profile-pic" className="form-control mb-5" placeholder="Profile Pic URL" required />
+                        <textarea ref={bio} name="bio" type="text" id="register--bio" className="form-control mb-5" placeholder="Bio" rows="4" required />
+                    </div>
+                </div>
+                <div className="d-flex justify-content-center">
+                    <button className="btn btn-outline-primary w-50" type="submit">Register</button>
+                </div>
             </form>
-            <section className="link--register">
-                Already registered? <Link to="/login">Login</Link>
-            </section>
         </main>
     )
 }
