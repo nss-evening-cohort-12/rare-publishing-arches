@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom"
 import "./Auth.css"
 
 export const Login = () => {
-    const email = useRef()
+    const username = useRef()
     const password = useRef()
     const invalidDialog = useRef()
     const errorDialog = useRef()
@@ -12,12 +12,16 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch('http://127.0.0.1:8000/user?email=' + email.current.value, {
-            method: "GET",
+        return fetch('http://127.0.0.1:8000/login', {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json",
                 "Accept": "application/json"
             },
+            body: JSON.stringify({
+                username: username.current.value,
+                password: password.current.value
+            })
         })
             .then(res => res.json())
             .then(res => {
@@ -52,7 +56,7 @@ export const Login = () => {
             </div>
             <div className="d-flex flex-column justify-content-center align-items-center h-50">
                 <form onSubmit={handleLogin}>
-                    <input ref={email} type="email" id="email" className="form-control mb-5" placeholder="Username" required autoFocus />
+                    <input ref={username} type="text" id="username" className="form-control mb-5" placeholder="Username" required autoFocus />
                     <input ref={password} type="password" id="password" className="form-control mb-5" placeholder="Password" required />
                     <div className="d-flex justify-content-center">
                         <button className="btn btn-outline-primary w-100" type="submit">Login</button>
