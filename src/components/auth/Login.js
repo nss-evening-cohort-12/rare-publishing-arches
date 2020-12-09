@@ -12,7 +12,7 @@ export const Login = () => {
     const handleLogin = (e) => {
         e.preventDefault()
 
-        return fetch('http://127.0.0.1:8088/user?email=' + email.current.value, {
+        return fetch('http://127.0.0.1:8000/user?email=' + email.current.value, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
