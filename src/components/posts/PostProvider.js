@@ -7,7 +7,11 @@ export const PostProvider = (props) => {
     const [searchTerms, setTerms] = useState("")
 
     const getPosts = () => {
-        return fetch("http://localhost:8088/posts")
+        return fetch("http://localhost:8000/posts", {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
             .then(setPosts)
     }
@@ -16,16 +20,22 @@ export const PostProvider = (props) => {
     //     return fetch(`http://localhost:8088/posts/${id}?_expand=location&_expand=customer`)
     //         .then(res => res.json())
     // }
+
     const getPostById = (id) => {
-        return fetch(`http://localhost:8088/posts/${id}`)
+        return fetch(`http://localhost:8000/posts/${id}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
             .then(res => res.json())
     }
 
     const addPost = post => {
-        return fetch("http://localhost:8088/posts", {
+        return fetch("http://localhost:8000/posts", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             },
             body: JSON.stringify(post)
         })
@@ -33,10 +43,11 @@ export const PostProvider = (props) => {
     }
 
     const updatePost = post => {
-        return fetch(`http://localhost:8088/posts/${post.id}`, {
+        return fetch(`http://localhost:8000/posts/${post.id}`, {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             },
             body: JSON.stringify(post)
         })
@@ -44,8 +55,11 @@ export const PostProvider = (props) => {
     }
 
     const releasePost = (postId) => {
-        return fetch(`http://localhost:8088/posts/${postId}`, {
-            method: "DELETE"
+        return fetch(`http://localhost:8000/posts/${postId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
         })
             .then(getPosts)
     }

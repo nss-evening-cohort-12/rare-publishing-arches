@@ -4,18 +4,24 @@
 
 .posts {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 1rem;
+    flex-direction: column;
   }
 
   .post {
-      flex-basis: 24%;
       margin: 0.5rem 1em;
-      padding: 0.5rem 1rem;
+      padding: 2rem 2rem;
       border: 1px solid goldenrod;
   }
 
   .posts__search {
       width: 25rem;
+  }
+
+  .post__add {
+      font-size: 1.25rem !important;
+  }
+  
+  .post__list {
+      height: calc(75vh - 2rem);
+      overflow-y: scroll;
   }

@@ -7,53 +7,53 @@ import { PostList } from "./posts/PostList.js"
 import { PostForm } from "./posts/PostForm.js"
 import { TagProvider } from "./tags/TagProvider.js"
 import { TagList } from "./tags/TagList.js"
-import { CategoryProvider} from './categories/CategoryProvider.js'
-import { CategoryList} from './categories/CategoryList'
+import { CategoryProvider } from './categories/CategoryProvider.js'
+import { CategoryList } from './categories/CategoryList'
 
 
 export const ApplicationViews = () => {
     return <>
         <main style={{
-            margin: "5rem 2rem",
+            margin: "1rem 2rem",
             lineHeight: "1.75rem"
         }}>
             <TagProvider>
-            <PostProvider>
-                        <Route exact path="/">
-                            <PostList />
-                        </Route>
-                        <Route exact path="/posts" render={(props) => {
-                            return <>
-                                <main className="postContainer">
-                                    <h1>Posts</h1>
+                <PostProvider>
+                    <Route exact path="/">
+                        <PostList />
+                    </Route>
+                    <Route exact path="/posts" render={(props) => {
+                        return <>
+                            <main className="postContainer">
+                                <h1>Posts</h1>
 
-                                    <PostSearch />
-                                    <PostList history={props.history} />
-                                </main>
+                                <PostSearch />
+                                <PostList history={props.history} />
+                            </main>
 
-                            </>
-                        }} />
+                        </>
+                    }} />
 
-                        <Route exact path="/posts/create" render={(props) => {
-                            return <PostForm {...props} />
-                        }} />
+                    <Route exact path="/posts/create" render={(props) => {
+                        return <PostForm {...props} />
+                    }} />
 
-                        <Route path="/posts/:postId(\d+)" render={
-                            props => <PostDetails {...props} />
-                        } />
+                    <Route path="/posts/:postId(\d+)" render={
+                        props => <PostDetails {...props} />
+                    } />
 
-                        <Route path="/posts/edit/:postId(\d+)" render={
-                            props => <PostForm {...props} />
-                        } />
-            </PostProvider>
+                    <Route path="/posts/edit/:postId(\d+)" render={
+                        props => <PostForm {...props} />
+                    } />
+                </PostProvider>
                 <Route exact path="/tags" render={() => {
-                            return <>
-                                <main className="tagsContainer">
-                                    <h1>Available Tags</h1>
-                                    <TagList />
-                                </main>
-                            </>
-                        }} />
+                    return <>
+                        <main className="tagsContainer">
+                            <h1>Available Tags</h1>
+                            <TagList />
+                        </main>
+                    </>
+                }} />
             </TagProvider>
             <CategoryProvider>
                 <Route exact path='/categories' render={() => {

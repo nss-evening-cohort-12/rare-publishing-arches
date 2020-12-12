@@ -1,10 +1,12 @@
 import React, { useState, useContext, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import Post from "./Post"
 import "./Posts.css"
 
-export const PostList = ({ history }) => {
+export const PostList = () => {
     const { getPosts, posts, searchTerms } = useContext(PostContext)
+    const history = useHistory();
 
     const [filteredPosts, setFiltered] = useState([])
 
@@ -24,11 +26,16 @@ export const PostList = ({ history }) => {
     }, [posts])
 
     return (
-        <div style={{ marginTop: "2rem"}}>
-            <button onClick={() => history.push("/posts/create")}>
-                Make New Post
-            </button>
-            <div className="posts">
+        <div>
+            <div className="d-flex flex-row justify-content-end">
+                <button className="d-flex flex-row justify-content-center align-items-center post__add btn btn-primary mr-5"
+                    onClick={() => history.push("/posts/create")}
+                >
+                    Add Post
+                    <i className="fas fa-plus ml-4 mr-2"></i>
+                </button>
+            </div>
+            <div className="posts post__list mt-5 mx-5">
                 {
                     filteredPosts.map(post => <Post key={post.id} post={post} />)
                 }
