@@ -29,3 +29,7 @@
 .postForm__title {
     margin-bottom: 2rem;
 }
+
+.postForm > fieldset > .form-check > .form-check-label {
+    margin-right: 2rem;
+}

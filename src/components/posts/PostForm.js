@@ -71,7 +71,7 @@ export const PostForm = (props) => {
             addPost({
                 title: post.title,
                 content: post.content,
-                categoryId: 1,
+                categoryId: post.categoryId,
                 publicationDate: now,
                 // userId: parseInt(localStorage.getItem("rare_user_id")),
                 userId: 1,
@@ -123,27 +123,17 @@ export const PostForm = (props) => {
                     </div>
                 </fieldset>
                 <fieldset>
-                    <div className="d-flex flex-row flex-wrap col mb-3 pl-0">
-                        <div className="form-check mr-2">
-                            <input type="checkbox" name="tag-1" className="form-check-input" />
-                            <label for="tag-1" className="form-check-label">Tag1</label>
-                        </div>
-                        <div className="form-check mx-2">
-                            <input type="checkbox" name="tag-2" className="form-check-input" />
-                            <label for="tag-2" className="form-check-label">Tag2</label>
-                        </div>
-                        <div className="form-check mx-2">
-                            <input type="checkbox" name="tag-3" className="form-check-input" />
-                            <label for="tag-3" className="form-check-label">Tag3</label>
-                        </div>
-                        <div className="form-check mx-2">
-                            <input type="checkbox" name="tag-4" className="form-check-input" />
-                            <label for="tag-4" className="form-check-label">Tag4</label>
-                        </div>
-                        <div className="form-check mx-2">
-                            <input type="checkbox" name="tag-5" className="form-check-input" />
-                            <label for="tag-5" className="form-check-label">Tag5</label>
-                        </div>
+                    <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
+                        <input type="checkbox" name="tag-1" className="form-check-input" />
+                        <label for="tag-1" className="form-check-label">Tag1</label>
+                        <input type="checkbox" name="tag-2" className="form-check-input" />
+                        <label for="tag-2" className="form-check-label">Tag2</label>
+                        <input type="checkbox" name="tag-3" className="form-check-input" />
+                        <label for="tag-3" className="form-check-label">Tag3</label>
+                        <input type="checkbox" name="tag-4" className="form-check-input" />
+                        <label for="tag-4" className="form-check-label">Tag4</label>
+                        <input type="checkbox" name="tag-5" className="form-check-input" />
+                        <label for="tag-5" className="form-check-label">Tag5</label>
                     </div>
                 </fieldset>
 
