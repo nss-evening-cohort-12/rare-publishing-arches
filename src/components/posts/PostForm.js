@@ -76,11 +76,8 @@ export const PostForm = (props) => {
             addPost({
                 title: post.title,
                 content: post.content,
-                categoryId: post.categoryId,
-                publicationDate: now,
-                // userId: parseInt(localStorage.getItem("rare_user_id")),
-                userId: 1,
-                headerImgUrl: post.headerImgUrl
+                category_id: post.categoryId,
+                image_url: post.headerImgUrl
             })
                 .then(() => props.history.push("/posts"))
         }
