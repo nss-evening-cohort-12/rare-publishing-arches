@@ -34,11 +34,14 @@ export const NavBar = () => {
                         <Link to="/" className="btn btn-outline-primary w-100">Tag Manager</Link>
                     </div>
                 </li>
-                <li className="navbar__item mx-3">
-                    <div className="d-flex justify-content-center">
-                        <Link to="/" className="btn btn-outline-primary w-100">User Manager</Link>
-                    </div>
-                </li>
+                {/* Change 'true' to whatever the is_admin check will be */}
+                {true ? (
+                    <li className="navbar__item mx-3">
+                        <div className="d-flex justify-content-center">
+                            <Link to="/" className="btn btn-outline-primary w-100">User Manager</Link>
+                        </div>
+                    </li>
+                ) : (<></>)}
                 {
                     (localStorage.getItem("rare_user_id") !== null) ?
                         <li className="navbar__item ml-auto mr-3">
