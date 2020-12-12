@@ -23,7 +23,7 @@
   
 .post__list {
     height: calc(75vh - 2rem);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .postForm__title {
@@ -32,4 +32,9 @@
 
 .postForm > fieldset > .form-check > .form-check-label {
     margin-right: 2rem;
+}
+
+.post__table {
+    height: calc(50vh - 2rem);
+    overflow-y: auto;
 }

@@ -4,6 +4,7 @@ import { PostDetails } from "./posts/PostDetail.js"
 import { PostSearch } from "./posts/PostSearch.js"
 import { PostProvider } from "./posts/PostProvider.js"
 import { PostList } from "./posts/PostList.js"
+import { PostTable } from "./posts/PostTable.js"
 import { PostForm } from "./posts/PostForm.js"
 import { TagProvider } from "./tags/TagProvider.js"
 import { TagList } from "./tags/TagList.js"
@@ -28,7 +29,7 @@ export const ApplicationViews = () => {
                                 <h1>Posts</h1>
 
                                 <PostSearch />
-                                <PostList history={props.history} />
+                                <PostTable />
                             </main>
 
                         </>
