@@ -1,12 +1,16 @@
 import React, { useContext, useState, useEffect } from "react"
 import { PostContext } from "./PostProvider"
 import { ProfileContext } from "../auth/AuthProvider"
+import { TagContext } from "../tags/TagProvider"
 
 
 export const PostForm = (props) => {
     // Use the required context providers for data
     const { addPost, posts, updatePost, getPosts } = useContext(PostContext)
     // const { profile, getProfile } = useContext(ProfileContext)
+
+    // Tags data
+    const { tags, getTags, getTagsByPostId } = useContext(TagContext)
 
     // Component state
     const [post, setPost] = useState({})
@@ -39,9 +43,10 @@ export const PostForm = (props) => {
         }
     }
 
-    // Get posts from API when component initializes
+    // Get data from API when component initilizes
     useEffect(() => {
-        getPosts()
+        getPosts();
+        getTags();
     }, [])
 
     // Once provider state is updated, determine the post (if edit)

@@ -7,59 +7,59 @@ export const TagProvider = (props) => {
   const [postTags, setPostTags] = useState([])
 
   const getTags = () => {
-    return fetch("http://localhost:8088/tags")
+    return fetch("http://localhost:8000/tags")
       .then(res => res.json())
       .then(setTags)
   }
 
   const getTagsByPostId = postId => {
-    return fetch(`http://localhost:8088/tags/${postId}`)
+    return fetch(`http://localhost:8000/tags/${postId}`)
       .then(res => res.json())
       .then(setPostTags)
   }
 
   const createTag = tag => {
-    return fetch("http://localhost:8088/tags", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(tag)
+    return fetch("http://localhost:8000/tags", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
     })
-        .then(getTags)
+      .then(getTags)
   }
 
   const createPostTag = posttag => {
-    return fetch("http://localhost:8088/posttags", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(posttag)
+    return fetch("http://localhost:8000/posttags", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(posttag)
     })
-        .then(() => getTagsByPostId(posttag.post_id))
+      .then(() => getTagsByPostId(posttag.post_id))
   }
 
   const updateTag = tag => {
-    return fetch(`http://localhost:8088/tags/${tag.id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(tag)
+    return fetch(`http://localhost:8000/tags/${tag.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(tag)
     })
-        .then(getTags)
-}
+      .then(getTags)
+  }
 
   const deleteTag = id => {
-    return fetch(`http://localhost:8088/tags/${id}`, {
+    return fetch(`http://localhost:8000/tags/${id}`, {
       method: "DELETE",
     })
       .then(getTags)
   }
 
   const deletePostTag = (id, postId) => {
-    return fetch(`http://localhost:8088/posttags/${id}`, {
+    return fetch(`http://localhost:8000/posttags/${id}`, {
       method: "DELETE",
     })
       .then(() => getTagsByPostId(postId))
