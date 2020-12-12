@@ -18,45 +18,45 @@ export const ApplicationViews = () => {
             margin: "1rem 2rem",
             lineHeight: "1.75rem"
         }}>
-            <TagProvider>
-                <PostProvider>
-                    <Route exact path="/">
-                        <PostList />
-                    </Route>
-                    <Route exact path="/posts" render={(props) => {
+            <CategoryProvider>
+                <TagProvider>
+                    <PostProvider>
+                        <Route exact path="/">
+                            <PostList />
+                        </Route>
+                        <Route exact path="/posts" render={(props) => {
+                            return <>
+                                <main className="postContainer">
+                                    <h1>Posts</h1>
+
+                                    <PostSearch />
+                                    <PostTable />
+                                </main>
+
+                            </>
+                        }} />
+
+                        <Route exact path="/posts/create" render={(props) => {
+                            return <PostForm {...props} />
+                        }} />
+
+                        <Route path="/posts/:postId(\d+)" render={
+                            props => <PostDetails {...props} />
+                        } />
+
+                        <Route path="/posts/edit/:postId(\d+)" render={
+                            props => <PostForm {...props} />
+                        } />
+                    </PostProvider>
+                    <Route exact path="/tags" render={() => {
                         return <>
-                            <main className="postContainer">
-                                <h1>Posts</h1>
-
-                                <PostSearch />
-                                <PostTable />
+                            <main className="tagsContainer">
+                                <h1>Available Tags</h1>
+                                <TagList />
                             </main>
-
                         </>
                     }} />
-
-                    <Route exact path="/posts/create" render={(props) => {
-                        return <PostForm {...props} />
-                    }} />
-
-                    <Route path="/posts/:postId(\d+)" render={
-                        props => <PostDetails {...props} />
-                    } />
-
-                    <Route path="/posts/edit/:postId(\d+)" render={
-                        props => <PostForm {...props} />
-                    } />
-                </PostProvider>
-                <Route exact path="/tags" render={() => {
-                    return <>
-                        <main className="tagsContainer">
-                            <h1>Available Tags</h1>
-                            <TagList />
-                        </main>
-                    </>
-                }} />
-            </TagProvider>
-            <CategoryProvider>
+                </TagProvider>
                 <Route exact path='/categories' render={() => {
                     return <>
                         <main className='categoriesContainer'>

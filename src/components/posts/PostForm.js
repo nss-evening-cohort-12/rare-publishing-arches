@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react"
 import { PostContext } from "./PostProvider"
-import { ProfileContext } from "../auth/AuthProvider"
+import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
 
 
@@ -11,6 +11,9 @@ export const PostForm = (props) => {
 
     // Tags data
     const { tags, getTags, getTagsByPostId } = useContext(TagContext)
+
+    // Categories data
+    const { categories, getCategories } = useContext(CategoryContext)
 
     // Component state
     const [post, setPost] = useState({})
@@ -47,6 +50,7 @@ export const PostForm = (props) => {
     useEffect(() => {
         getPosts();
         getTags();
+        getCategories();
     }, [])
 
     // Once provider state is updated, determine the post (if edit)
@@ -119,8 +123,9 @@ export const PostForm = (props) => {
                     <div className="form-group">
                         <select name="categoryId" className="form-control w-50" defaultValue="0" onChange={handleControlledInputChange}>
                             <option value="0" disabled>Category Select</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
+                            {categories.map(category => (
+                                <option value={category.id}>{category.label}</option>
+                            ))}
                         </select>
                     </div>
                 </fieldset>
