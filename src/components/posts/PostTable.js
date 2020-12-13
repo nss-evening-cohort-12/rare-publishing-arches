@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react"
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import Post from "./Post"
 import "./Posts.css"
@@ -50,7 +50,7 @@ export const PostTable = () => {
                         {
                             filteredPosts.map(post => (
                                 <tr key={post.id}>
-                                    <td>{post.title}</td>
+                                    <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                     <td>{post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</td>
                                     <td>{post.publication_date}</td>
                                     <td>{post.category && post.category.label}</td>
