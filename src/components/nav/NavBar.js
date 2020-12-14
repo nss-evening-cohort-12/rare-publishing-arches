@@ -16,7 +16,7 @@ export const NavBar = () => {
                 </li>
                 <li className="navbar__item mx-3">
                     <div className="d-flex justify-content-center">
-                        <Link to="/" className="btn btn-outline-primary w-100">All Posts</Link>
+                        <Link to="/posts" className="btn btn-outline-primary w-100">All Posts</Link>
                     </div>
                 </li>
                 <li className="navbar__item mx-3">
