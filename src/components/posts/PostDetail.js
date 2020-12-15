@@ -46,14 +46,6 @@ export const PostDetails = (props) => {
                 <div className="post__content">
                     {post.content}
                 </div>
-
-                {post.id && <PostTagList postId={post.id} />}
-
-                <button onClick={() => releasePost(post.id).then(() => props.history.push("/posts"))} >Release Post</button>
-
-                <button onClick={() => {
-                    props.history.push(`/posts/edit/${post.id}`)
-                }}>Edit</button>
             </div>
             <div className="mx-5">
                 <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
