@@ -10,10 +10,12 @@ import { TagProvider } from "./tags/TagProvider.js"
 import { TagList } from "./tags/TagList.js"
 import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
+import { NavBar } from "./nav/NavBar"
 
 
 export const ApplicationViews = () => {
     return <>
+        <NavBar />
         <main style={{
             margin: "1rem 2rem",
             lineHeight: "1.75rem"
@@ -24,6 +26,7 @@ export const ApplicationViews = () => {
                         <Route exact path="/">
                             <PostList />
                         </Route>
+                        <Route path="/user/posts" render={props => <PostList {...props} />} />
                         <Route exact path="/posts" render={(props) => {
                             return <>
                                 <main className="postContainer">

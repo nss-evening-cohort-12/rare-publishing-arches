@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react"
 import { PostContext } from "./PostProvider"
 import { PostTagList } from "../tags/PostTagList"
+import { TagContext } from "../tags/TagProvider"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
     const { releasePost, getPostById } = useContext(PostContext)
+    const { postTags, getTagsByPostId } = useContext(TagContext)
 
     const [post, setPost] = useState({ user: {} })
 

@@ -7,6 +7,11 @@
     flex-direction: column;
 }
 
+.post__list {
+    height: 75vh;
+    overflow-y: auto;
+}
+
 .post__content {
     margin-top: 3rem;
     white-space: pre-line;
