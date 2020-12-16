@@ -68,10 +68,10 @@ export const PostForm = (props) => {
                 id: post.id,
                 title: post.title,
                 content: post.content,
-                categoryId: 1,
-                publicationDate: now,
-                user: post.rareuser.id,
-                image_url: post.headerImgUrl
+                category_id: parseInt(post.category_id),
+                publication_date: post.publication_date,
+                author_id: post.rareuser.id,
+                image_url: post.image_url
             })
                 .then(() => props.history.push("/posts"))
         } else {
@@ -79,7 +79,7 @@ export const PostForm = (props) => {
             addPost({
                 title: post.title,
                 content: post.content,
-                category_id: post.categoryId,
+                category: post.category.id,
                 image_url: post.headerImgUrl
             })
                 .then(() => props.history.push("/posts"))
@@ -102,7 +102,7 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <input type="text" name="headerImgUrl" className="form-control w-75"
+                        <input type="text" name="image_url" className="form-control w-75"
                             placeholder="Image URL"
                             defaultValue={post.image_url}
                             onChange={handleControlledInputChange}>
@@ -120,7 +120,7 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <select name="categoryId" className="form-control w-50" value={(post.category && post.category.id) || "0"} onChange={handleControlledInputChange}>
+                        <select name="category_id" className="form-control w-50" value={(post.category && post.category.id) || "0"} onChange={handleControlledInputChange}>
                             <option value="0" disabled>Category Select</option>
                             {categories.map(category => (
                                 <option key={category.id} value={category.id}>{category.label}</option>

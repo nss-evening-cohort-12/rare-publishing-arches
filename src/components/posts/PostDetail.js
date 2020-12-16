@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
+import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import { PostTagList } from "../tags/PostTagList"
 import { TagContext } from "../tags/TagProvider"
@@ -7,6 +8,7 @@ import "./Posts.css"
 export const PostDetails = (props) => {
     const { releasePost, getPostById } = useContext(PostContext)
     const { postTags, getTagsByPostId } = useContext(TagContext)
+    const history = useHistory();
 
     const [post, setPost] = useState({ user: {} })
 
@@ -23,7 +25,7 @@ export const PostDetails = (props) => {
                 <div className="d-flex flex-row justify-content-between">
                     <div className="post__manage__buttons">
                         <i className="fas fa-trash-alt"></i>
-                        <i className="fas fa-cog"></i>
+                        <i className="fas fa-cog post__hover" onClick={() => history.push(`/posts/edit/${post.id}`)}></i>
                     </div>
                     <div>
                         <small>{post.category && post.category.label}</small>
