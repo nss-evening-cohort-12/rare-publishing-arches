@@ -49,3 +49,8 @@
     height: calc(50vh - 2rem);
     overflow-y: auto;
 }
+
+.post__hover:hover {
+    cursor: pointer;
+    color: #5555FF
+}
