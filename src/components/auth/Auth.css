@@ -62,6 +62,6 @@ fieldset {
 }
 
 .dialog {
-    min-width: 15rem;
-    min-height: 5rem;
+    min-width: 30rem;
+    min-height: 10rem;
 }
