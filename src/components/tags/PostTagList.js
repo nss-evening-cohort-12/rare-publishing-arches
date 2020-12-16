@@ -4,7 +4,7 @@ import PostTag from "./PostTag"
 import ListTags from "./ListTags"
 
 export const PostTagList = (props) => {
-  const { tags, getTags, postTags, getTagsByPostId, deletePostTag, createPostTag } = useContext(TagContext)
+  const { tags, getTags, postTags, deletePostTag, createPostTag } = useContext(TagContext)
 
   const deleteAPostTag = (e) => {
     e.preventDefault()
@@ -24,7 +24,6 @@ export const PostTagList = (props) => {
 
   useEffect(() => {
     getTags()
-    getTagsByPostId(props.postId)
   }, [])
 
   return (

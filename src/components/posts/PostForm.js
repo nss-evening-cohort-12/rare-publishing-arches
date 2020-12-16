@@ -10,7 +10,7 @@ export const PostForm = (props) => {
     // const { profile, getProfile } = useContext(ProfileContext)
 
     // Tags data
-    const { tags, getTags, getTagsByPostId } = useContext(TagContext)
+    const { tags, getTags } = useContext(TagContext)
 
     // Categories data
     const { categories, getCategories } = useContext(CategoryContext)
@@ -69,11 +69,10 @@ export const PostForm = (props) => {
                 id: post.id,
                 title: post.title,
                 content: post.content,
-                categoryId: 1,
-                publicationDate: now,
-                // userId: parseInt(localStorage.getItem("rare_user_id")),
-                userId: 1,
-                headerImgUrl: post.headerImgUrl
+                category_id: parseInt(post.category_id),
+                publication_date: post.publication_date,
+                author_id: post.rareuser.id,
+                image_url: post.image_url
             })
                 .then(() => props.history.push("/posts"))
         } else {
@@ -81,8 +80,8 @@ export const PostForm = (props) => {
             addPost({
                 title: post.title,
                 content: post.content,
-                category_id: post.categoryId,
-                image_url: post.headerImgUrl
+                category_id: post.category_id,
+                image_url: post.image_url
             })
                 .then(() => props.history.push("/posts"))
         }
@@ -104,9 +103,9 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <input type="text" name="headerImgUrl" className="form-control w-75"
+                        <input type="text" name="image_url" className="form-control w-75"
                             placeholder="Image URL"
-                            defaultValue={post.header_img_url}
+                            defaultValue={post.image_url}
                             onChange={handleControlledInputChange}>
                         </input>
                     </div>
@@ -122,10 +121,10 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <select name="categoryId" className="form-control w-50" defaultValue="0" onChange={handleControlledInputChange}>
+                        <select name="category_id" className="form-control w-50" value={post.category_id || ((post.category && post.category.id) || "0")} onChange={handleControlledInputChange}>
                             <option value="0" disabled>Category Select</option>
                             {categories.map(category => (
-                                <option value={category.id}>{category.label}</option>
+                                <option key={category.id} value={category.id}>{category.label}</option>
                             ))}
                         </select>
                     </div>
