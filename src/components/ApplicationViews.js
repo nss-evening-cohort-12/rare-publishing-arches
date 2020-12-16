@@ -48,11 +48,11 @@ export const ApplicationViews = () => {
                             props => <PostForm {...props} />
                         } />
                     </PostProvider>
-                    <Route exact path="/tags" render={() => {
+                    <Route exact path="/tags" render={(props) => {
                         return <>
                             <main className="tagsContainer">
                                 <h1>Available Tags</h1>
-                                <TagList />
+                                <TagList {...props} />
                             </main>
                         </>
                     }} />

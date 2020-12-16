@@ -9,15 +9,13 @@ export const TagList = (props) => {
   const [editTagId, setEditTagId] = useState(0)
 
   const handleInput = (e) => {
-    if (e.key === 'Enter') {
       if (isEditing) {
-        updateTag({ id: editTagId, name: newTag })
+        updateTag({ id: editTagId, label: newTag })
         .then(setNewTag(""))
       } else {
-        createTag({ name: e.target.value })
+        createTag({ label: newTag })
         .then(setNewTag(""))
       }
-    }
   }
 
   const editATag = (e) => {
@@ -35,17 +33,19 @@ export const TagList = (props) => {
   }, [])
 
   return (
-    <React.Fragment>
-      <div className="addTagForm">
-        <input type="text" placeholder="Enter new tag" value={newTag} onKeyDown={handleInput} onChange={e => {
-          setNewTag(e.target.value)
-        }}></input>
+      <div className="d-flex flex-row justify-content-around">
+        <div className="allTags">
+          {
+            tags.map(tag => <Tag key={tag.id} tag={tag} deleteATag={deleteATag} editATag={editATag} />)
+          }
+        </div>
+        <div className="addTagForm d-flex flex-column justify-content-around align-items-center">
+          <h2>Create a new tag</h2>
+          <input className="tagInput" type="text" placeholder="Add text" value={newTag} onChange={e => {
+            setNewTag(e.target.value)
+          }}></input>
+          <button className="createTag" onClick={handleInput}>Create</button>
+        </div>
       </div>
-      <div className="allTags">
-        {
-          tags.map(tag => <Tag key={tag.id} tag={tag} deleteATag={deleteATag} editATag={editATag} />)
-        }
-      </div>
-    </React.Fragment>
   )
 }
