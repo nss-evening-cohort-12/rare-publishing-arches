@@ -3,7 +3,7 @@ import "./Posts.css"
 import { Link } from "react-router-dom"
 
 export default ({ post }) => (
-    <section className="post">
+    <section className="post p-5 mb-5 border">
         <div className="d-flex flex-row justify-content-between">
             <h3 className="post__title">
                 <Link to={`/posts/${post.id}`}>

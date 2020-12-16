@@ -7,10 +7,20 @@
     flex-direction: column;
 }
 
-.post {
-    margin: 0.5rem 1em;
-    padding: 2rem 2rem;
-    border: 1px solid goldenrod;
+.post__list {
+    height: 75vh;
+    overflow-y: auto;
+}
+
+.post__content {
+    margin-top: 3rem;
+    white-space: pre-line;
+    height: 75vh;
+    overflow-y: auto;
+}
+
+.post_details {
+    margin-left: 12rem !important;
 }
 
 .posts__search {
@@ -20,12 +30,13 @@
 .post__add {
     font-size: 1.25rem !important;
 }
-  
-.post__list {
-    height: calc(75vh - 2rem);
-    overflow-y: auto;
-}
 
+.post__manage__buttons > i {
+    font-size: 2rem !important;
+    margin-right: 1.5rem;
+    margin-bottom: 1rem;
+}
+  
 .postForm__title {
     margin-bottom: 2rem;
 }
