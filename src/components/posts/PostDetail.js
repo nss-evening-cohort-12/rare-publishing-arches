@@ -36,7 +36,7 @@ export const PostDetails = (props) => {
                         <small>By {post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</small>
                     </div>
                     <div>
-                        <button className="btn btn-outline-primary">View Comments</button>
+                        <button className="btn btn-outline-primary" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
                     </div>
                     <div className="d-flex align-items-center border border-primary rounded px-3 h-100">
                         Reactions go here
