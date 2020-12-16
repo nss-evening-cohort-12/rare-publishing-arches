@@ -70,9 +70,8 @@ export const PostForm = (props) => {
                 content: post.content,
                 categoryId: 1,
                 publicationDate: now,
-                // userId: parseInt(localStorage.getItem("rare_user_id")),
-                userId: 1,
-                headerImgUrl: post.headerImgUrl
+                user: post.rareuser.id,
+                image_url: post.headerImgUrl
             })
                 .then(() => props.history.push("/posts"))
         } else {
@@ -105,7 +104,7 @@ export const PostForm = (props) => {
                     <div className="form-group">
                         <input type="text" name="headerImgUrl" className="form-control w-75"
                             placeholder="Image URL"
-                            defaultValue={post.header_img_url}
+                            defaultValue={post.image_url}
                             onChange={handleControlledInputChange}>
                         </input>
                     </div>
@@ -121,10 +120,10 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <select name="categoryId" className="form-control w-50" defaultValue="0" onChange={handleControlledInputChange}>
+                        <select name="categoryId" className="form-control w-50" value={(post.category && post.category.id) || "0"} onChange={handleControlledInputChange}>
                             <option value="0" disabled>Category Select</option>
                             {categories.map(category => (
-                                <option value={category.id}>{category.label}</option>
+                                <option key={category.id} value={category.id}>{category.label}</option>
                             ))}
                         </select>
                     </div>
@@ -132,15 +131,15 @@ export const PostForm = (props) => {
                 <fieldset>
                     <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
                         <input type="checkbox" name="tag-1" className="form-check-input" />
-                        <label for="tag-1" className="form-check-label">Tag1</label>
+                        <label htmlFor="tag-1" className="form-check-label">Tag1</label>
                         <input type="checkbox" name="tag-2" className="form-check-input" />
-                        <label for="tag-2" className="form-check-label">Tag2</label>
+                        <label htmlFor="tag-2" className="form-check-label">Tag2</label>
                         <input type="checkbox" name="tag-3" className="form-check-input" />
-                        <label for="tag-3" className="form-check-label">Tag3</label>
+                        <label htmlFor="tag-3" className="form-check-label">Tag3</label>
                         <input type="checkbox" name="tag-4" className="form-check-input" />
-                        <label for="tag-4" className="form-check-label">Tag4</label>
+                        <label htmlFor="tag-4" className="form-check-label">Tag4</label>
                         <input type="checkbox" name="tag-5" className="form-check-input" />
-                        <label for="tag-5" className="form-check-label">Tag5</label>
+                        <label htmlFor="tag-5" className="form-check-label">Tag5</label>
                     </div>
                 </fieldset>
 
