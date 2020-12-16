@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect, Fragment } from "react"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
@@ -17,6 +17,7 @@ export const PostForm = (props) => {
 
     // Component state
     const [post, setPost] = useState({})
+    const [tagsToAdd, setTagsToAdd] = useState([])
 
     // Is there a a URL parameter??
     const editMode = props.match.params.hasOwnProperty("postId")  // true or false
@@ -131,16 +132,14 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
-                        <input type="checkbox" name="tag-1" className="form-check-input" />
-                        <label for="tag-1" className="form-check-label">Tag1</label>
-                        <input type="checkbox" name="tag-2" className="form-check-input" />
-                        <label for="tag-2" className="form-check-label">Tag2</label>
-                        <input type="checkbox" name="tag-3" className="form-check-input" />
-                        <label for="tag-3" className="form-check-label">Tag3</label>
-                        <input type="checkbox" name="tag-4" className="form-check-input" />
-                        <label for="tag-4" className="form-check-label">Tag4</label>
-                        <input type="checkbox" name="tag-5" className="form-check-input" />
-                        <label for="tag-5" className="form-check-label">Tag5</label>
+                        {
+                            tags.map(tag => (
+                                <React.Fragment>
+                                    <input type="checkbox" name="tagsToAdd" className="form-check-input" value={tag.id} />
+                                    <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
+                                </React.Fragment>
+                            ))
+                        }
                     </div>
                 </fieldset>
 
