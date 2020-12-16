@@ -24,6 +24,7 @@ export const ApplicationViews = () => {
                         <Route exact path="/">
                             <PostList />
                         </Route>
+                        <Route path="/user/posts" render={props => <PostList {...props} />} />
                         <Route exact path="/posts" render={(props) => {
                             return <>
                                 <main className="postContainer">

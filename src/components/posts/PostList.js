@@ -4,15 +4,21 @@ import { PostContext } from "./PostProvider"
 import Post from "./Post"
 import "./Posts.css"
 
-export const PostList = () => {
-    const { getPosts, posts, searchTerms } = useContext(PostContext)
+export const PostList = (props) => {
+    const { getPosts, posts, searchTerms, getPostsByUserId } = useContext(PostContext)
     const history = useHistory();
 
     const [filteredPosts, setFiltered] = useState([])
 
     // Initialization effect hook -> Go get post data
     useEffect(() => {
-        getPosts()
+        if (props.location && props.location.pathname == '/user/posts') {
+            // get posts by user id
+            getPostsByUserId()
+        } else {
+            // get all posts
+            getPosts()
+        }
     }, [])
 
     useEffect(() => {
@@ -35,7 +41,7 @@ export const PostList = () => {
                     <i className="fas fa-plus ml-4 mr-2"></i>
                 </button>
             </div>
-            <div className="posts post__list mt-5 mx-5">
+            <div className="posts post__list mt-5 mx-5 px-3">
                 {
                     filteredPosts.map(post => <Post key={post.id} post={post} />)
                 }
