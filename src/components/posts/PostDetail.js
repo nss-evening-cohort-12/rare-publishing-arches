@@ -1,16 +1,13 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
-import { PostTagList } from "../tags/PostTagList"
-import { TagContext } from "../tags/TagProvider"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
-    const { releasePost, getPostById } = useContext(PostContext)
-    const { postTags, getTagsByPostId } = useContext(TagContext)
+    const { getPostById } = useContext(PostContext)
     const history = useHistory();
 
-    const [post, setPost] = useState({ user: {} })
+    const [post, setPost] = useState({})
 
     useEffect(() => {
         const postId = parseInt(props.match.params.postId)
@@ -50,12 +47,9 @@ export const PostDetails = (props) => {
                 </div>
             </div>
             <div className="mx-5">
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
-                <div className="d-flex align-items-center border border-primary rounded px-5 mb-3">Tag</div>
+                {post.tags && post.tags.map(tag => (
+                    <div key={tag.id} className="d-flex align-items-center border border-primary rounded px-5 mb-3">{tag.label}</div>
+                ))}
             </div>
         </section>
     )

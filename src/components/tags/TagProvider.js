@@ -16,16 +16,6 @@ export const TagProvider = (props) => {
       .then(setTags)
   }
 
-  const getTagsByPostId = postId => {
-    return fetch(`http://localhost:8000/tags/${postId}`, {
-      headers: {
-          "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-      }
-  })
-      .then(res => res.json())
-      .then(setPostTags)
-  }
-
   const createTag = tag => {
     return fetch("http://localhost:8000/tags", {
       method: "POST",
@@ -46,7 +36,7 @@ export const TagProvider = (props) => {
       },
       body: JSON.stringify(posttag)
     })
-      .then(() => getTagsByPostId(posttag.post_id))
+      .then()
   }
 
   const updateTag = tag => {
@@ -75,12 +65,12 @@ export const TagProvider = (props) => {
     return fetch(`http://localhost:8000/posttags/${id}`, {
       method: "DELETE",
     })
-      .then(() => getTagsByPostId(postId))
+      .then()
   }
 
   return (
     <TagContext.Provider value={{
-      tags, postTags, getTags, getTagsByPostId, createTag, deleteTag, updateTag, deletePostTag, createPostTag
+      tags, postTags, getTags, createTag, deleteTag, updateTag, deletePostTag, createPostTag
     }}>
       {props.children}
     </TagContext.Provider>

@@ -10,7 +10,7 @@ export const PostForm = (props) => {
     // const { profile, getProfile } = useContext(ProfileContext)
 
     // Tags data
-    const { tags, getTags, getTagsByPostId } = useContext(TagContext)
+    const { tags, getTags } = useContext(TagContext)
 
     // Categories data
     const { categories, getCategories } = useContext(CategoryContext)
@@ -79,8 +79,8 @@ export const PostForm = (props) => {
             addPost({
                 title: post.title,
                 content: post.content,
-                category: post.category.id,
-                image_url: post.headerImgUrl
+                category_id: post.category_id,
+                image_url: post.image_url
             })
                 .then(() => props.history.push("/posts"))
         }
@@ -120,7 +120,7 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <select name="category_id" className="form-control w-50" value={(post.category && post.category.id) || "0"} onChange={handleControlledInputChange}>
+                        <select name="category_id" className="form-control w-50" value={post.category_id || ((post.category && post.category.id) || "0")} onChange={handleControlledInputChange}>
                             <option value="0" disabled>Category Select</option>
                             {categories.map(category => (
                                 <option key={category.id} value={category.id}>{category.label}</option>
