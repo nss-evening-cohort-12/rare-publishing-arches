@@ -12,6 +12,7 @@ import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
 import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
+import { CommentForm } from "./comments/CommentForm.js"
 
 
 export const ApplicationViews = () => {
@@ -52,9 +53,17 @@ export const ApplicationViews = () => {
                         } />
                         <CommentProvider>
                         
-                        <Route path="/post/:postId(\d+)/comments" render={
-                            props => <PostComments {...props} />
-                        } />
+                        <Route path="/post/:postId(\d+)/comments" render={(props) => {
+                            return <>
+                                <main className="postContainer">
+                                    <h1>Comments</h1>
+
+                                    <CommentForm {...props}/>
+                                    <PostComments {...props}/>
+                                </main>
+
+                            </>
+                        }} />
 
 
                         </CommentProvider>
