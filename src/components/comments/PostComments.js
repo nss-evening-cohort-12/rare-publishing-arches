@@ -83,7 +83,7 @@ export const PostComments = (props) => {
         <div className="container">
 
             <div className="">
-                    <div> 
+                    <div className="row justify-content-center"> 
                         <div className="addCommentForm d-flex flex-column justify-content-around align-items-center">
                             <h2>Post Title's Comments</h2>
                             <input className="commentInput" name="subject" type="text" placeholder="Add subject" defaultValue={comment.subject} onChange={handleControlledInputChange}></input>
@@ -113,13 +113,15 @@ export const PostComments = (props) => {
                         <button className="btn btn-outline-primary" onClick={e => deleteCommentDialog.current.close()}>Close</button>
                         </div>
                     </dialog>
-                    <div className="allComments">
+                    <div className="container">
+                        <div className="row justify-content-around">
                         {
                            filteredComments.map(comment => <Comment key={comment.id} comment={comment} deleteCommentDialog={deleteCommentDialog} setComment={setComment} setDeletedCommentId={setDeletedCommentId} editAComment={editAComment} />)
                         }
+                        </div>
                     </div>
                     
-                </div>           
+            </div>           
             
         </div>
     )
