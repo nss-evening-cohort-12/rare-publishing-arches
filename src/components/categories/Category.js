@@ -1,10 +1,21 @@
-import React from 'react'
-import './Categories.css'
+import React from "react"
+import { Link } from "react-router-dom"
+import "./Categories.css"
 
 export default (props) => (
   <div className="categories">
-    <div className="categoryName">{props.category.name}</div>
-    <div className="categoryIcon"><i className="far fa-trash-alt" id={props.category.id} onClick={props.deleteACategory}></i></div>
-    <div className="categoryIcon"><i className="fas fa-pencil-alt" id={props.category.id} data-tagname={props.category.name} onClick={props.editACategory} ></i></div>
+    <div className="categoryicon"><i className="fas fa-cog fa-2x" id={props.category.id} data-categoryname={props.category.label} onClick={props.editACategory}></i></div>
+    <div className="categoryicon"><i className="far fa-trash-alt fa-2x" id={props.category.id} onClick={e => {
+      props.setDeletedCategoryId(props.category.id)
+      props.deleteCategoryModal.current.showModal() 
+    }
+    }></i></div>
+    <div className="category__table">
+      <table className="table table-bordered">
+          <tr>
+            <td><Link to={`/categories/${props.category.id}`}>{props.category.label}</Link></td>
+          </tr>
+      </table>
+    </div>
   </div>
 )
