@@ -11,11 +11,10 @@ export const PostComments = (props) => {
     const deleteCommentDialog = useRef()
 
     
-    const { comments, addComment, releaseComment, updateComment, getCommentsByPostId } = useContext(CommentContext)
+    const { addComment, releaseComment, updateComment, getCommentsByPostId } = useContext(CommentContext)
     
-    const [newSubject, setNewSubject] = useState("")
-    const [editedSubject, setEditSubject] = useState("")
-    const [newContent, setNewContent] = useState("")
+    
+    const [editedSubject, setEditSubject] = useState("")    
     const [editedContent, setEditContent] = useState("")    
     const [editCommentId, setEditCommentId] = useState(0)
     const [deletedCommentId, setDeletedCommentId] = useState(0)
@@ -28,10 +27,7 @@ export const PostComments = (props) => {
         getCommentsByPostId(postId)           
             .then(setFilteredComments)           
     }, [])
-
-    // Is there a a URL parameter??
-    const editMode = props.match.params.hasOwnProperty("postId")  // true or false
-
+  
     // Component state
     const [comment, setComment] = useState({})
     
@@ -46,19 +42,9 @@ export const PostComments = (props) => {
         setComment(newComment)                                 // Set copy as new state
     } 
 
-    const getCommentInEditMode = () => {
-        if (editMode) {
-            const commentId = comment.id
-            const selectedComment = comments.find(a => a.id === commentId) || {}
-            setComment(selectedComment)
-        }
-    }
 
-    useEffect(() => {
-        getCommentInEditMode()
-    }, [comments])
-
-    const handleInput = () => {       
+    const handleInput = () => { 
+        
             // POST
             console.log("adding a comment")
             addComment({
@@ -66,13 +52,23 @@ export const PostComments = (props) => {
                 subject: comment.subject,
                 content: comment.content,                
             })
-            .then(() => props.history.push(`/posts/${postId}`))                  
+            .then(() => props.history.push(`/posts/${postId}`))
     }
+
+    const handleEditInput =() => {
+        updateComment({
+            id: editCommentId,
+            subject: editedSubject,
+            content: editedContent
+        })
+        .then(() => props.history.push(`/posts/${postId}`)) 
+    }
+
   
     const editAComment = (e) => {
       console.log(e.target)
-      setEditSubject(e.target.dataset.subjectname)
-      setEditContent(e.target.dataset.contentname)
+      setEditSubject(e.target.dataset.commentsubject)
+      setEditContent(e.target.dataset.commentcontent)
       setEditCommentId(e.target.id)
       editCommentDialog.current.showModal()
     }
@@ -81,6 +77,7 @@ export const PostComments = (props) => {
       releaseComment(deletedCommentId)
       .then(deleteCommentDialog.current.close())
       .then(setDeletedCommentId(0))
+      .then(() => props.history.push(`/posts/${postId}`))
     }   
 
     return (
@@ -105,7 +102,7 @@ export const PostComments = (props) => {
                             setEditContent(e.target.value)
                             }}></input>
                             <div className="d-flex flex-row justify-content-around align-items-center w-100">
-                            <button className="createComment btn btn-outline-primary" onClick={handleInput}>Ok</button>
+                            <button className="createComment btn btn-outline-primary" onClick={handleEditInput}>Ok</button>
                             <button className="btn btn-outline-primary" onClick={e => editCommentDialog.current.close()}>Close</button>
                             </div>
                         </div>
@@ -119,7 +116,7 @@ export const PostComments = (props) => {
                     </dialog>
                     <div className="allComments">
                         {
-                           filteredComments.map(comment => <Comment key={comment.id} comment={comment} deleteCommentDialog={deleteCommentDialog} setDeletedCommentId={setDeletedCommentId} editAComment={editAComment} />)
+                           filteredComments.map(comment => <Comment key={comment.id} comment={comment} deleteCommentDialog={deleteCommentDialog} setComment={setComment} setDeletedCommentId={setDeletedCommentId} editAComment={editAComment} />)
                         }
                     </div>
                     
