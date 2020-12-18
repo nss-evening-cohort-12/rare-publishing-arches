@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react"
+import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import "./Posts.css"
@@ -6,6 +6,7 @@ import "./Posts.css"
 export const PostDetails = (props) => {
     const { getPostById, releasePost } = useContext(PostContext)
     const history = useHistory();
+    const deletePostModal = useRef();
 
     const [post, setPost] = useState({})
 
@@ -17,13 +18,22 @@ export const PostDetails = (props) => {
 
     return (
         <section className="post d-flex flex-row">
+            <dialog className="dialog dialog--deletePost" ref={deletePostModal}>
+                <h4>Are you sure you want to delete this post?</h4>
+                <div className="d-flex flex-row justify-content-around align-items-center w-100">
+                    <button className="deletePost btn btn-outline-primary" onClick={() => {
+                        releasePost(post.id)
+                            .then(history.push("/posts"))
+                    }}>Ok</button>
+                    <button className="btn btn-outline-primary" onClick={e => deletePostModal.current.close()}>Cancel</button>
+                </div>
+            </dialog>
             <div className="post_details d-flex flex-column container">
                 <h3 className="post__title text-center">{post.title}</h3>
                 <div className="d-flex flex-row justify-content-between">
                     <div className="post__manage__buttons">
                         <i className="fas fa-trash-alt post__hover__delete" onClick={() => {
-                            releasePost(post.id)
-                                .then(history.push(`/posts`))
+                            deletePostModal.current.showModal()
                         }}></i>
                         <i className="fas fa-cog post__hover" onClick={() => history.push(`/posts/edit/${post.id}`)}></i>
                     </div>
