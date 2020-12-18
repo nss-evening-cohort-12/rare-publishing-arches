@@ -4,7 +4,7 @@ import { PostContext } from "./PostProvider"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
-    const { getPostById } = useContext(PostContext)
+    const { getPostById, releasePost } = useContext(PostContext)
     const history = useHistory();
 
     const [post, setPost] = useState({})
@@ -21,7 +21,10 @@ export const PostDetails = (props) => {
                 <h3 className="post__title text-center">{post.title}</h3>
                 <div className="d-flex flex-row justify-content-between">
                     <div className="post__manage__buttons">
-                        <i className="fas fa-trash-alt"></i>
+                        <i className="fas fa-trash-alt post__hover__delete" onClick={() => {
+                            releasePost(post.id)
+                                .then(history.push(`/posts`))
+                        }}></i>
                         <i className="fas fa-cog post__hover" onClick={() => history.push(`/posts/edit/${post.id}`)}></i>
                     </div>
                     <div>
