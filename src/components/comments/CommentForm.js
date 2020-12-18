@@ -72,11 +72,11 @@ export const CommentForm = (props) => {
     
     return (
         <div className="container w-50">
-            <form className="commentForm">
-                <h2 className="postForm__title"></h2>
+            <form className="commentForm justify-content-center">
+                <h2 className="postForm__title">Post Title's Comments</h2>
                 <fieldset>
                     <div className="form-group">
-                        <input type="text" name="subject" required autoFocus className="form-control w-75"
+                        <input type="text" name="subject" required autoFocus className="form-control"
                             placeholder="Comment Subject"
                             defaultValue={comment.subject}
                             onChange={handleControlledInputChange}
@@ -85,7 +85,7 @@ export const CommentForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="form-group">
-                        <input type="text" name="content" required autoFocus className="form-control w-75"
+                        <textarea type="text" name="content" required autoFocus className="form-control"
                             placeholder="Comment content"
                             defaultValue={comment.content}
                             onChange={handleControlledInputChange}

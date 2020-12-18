@@ -1,17 +1,19 @@
 import React from "react"
 import "./PostComments.css"
-import { Link } from "react-router-dom"
 
-export const Comment = ({ comment }) => (
-    <section className="comment p-5 mb-5 border">
-        <div className="d-flex flex-row justify-content-between">
-            <h3 className="comment__title">
-                <Link to={`/comments/${comment.id}`}>
-                    {comment.title}
-                </Link>
-                asdfasdfasdfcccccc
-            </h3>
-            
-        </div>        
-    </section>
+export const Comment = (props) => (
+    <div className="col col-4 comment p-5 m-2">
+    <div className="commenticon">
+        <i className="fas fa-cog" id={props.comment.id} data-commentname={props.comment.subject} onClick={props.editAComment} ></i></div>
+    <div className="commenticon">
+        <i className="far fa-trash-alt" id={props.comment.id} onClick={e => {
+        props.setDeletedCommentId(props.comment.id)
+        props.deleteCommentDialog.current.showModal() 
+      }
+    }></i></div>
+    <p>{props.comment.content}</p>
+    <h1>{props.comment.author.id}</h1>
+  </div>
 )
+
+

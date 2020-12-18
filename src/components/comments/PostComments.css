@@ -1,0 +1,51 @@
+.comment {
+    border: 2px solid lightgray;
+    border-radius: 35px;
+}
+
+.comments {
+    text-align: center;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    padding: .5rem 2rem .5rem 2rem;
+    margin: .5rem;
+  }
+  
+  .addCommentForm {
+    max-width: 35rem;
+    border-radius: 5rem;
+    padding: 1rem;
+    min-width: 20rem;
+    min-height: 20rem;
+  }
+  
+  .commentInput {
+    padding: .5rem;
+    min-width: 25rem;
+  }
+  
+  .commentname {
+    background-color: rgb(77, 77, 77);
+    color: white;
+    margin: 1rem;
+    border-radius: 5px;
+    text-align: center;
+    min-width: 20rem;
+    padding: .5rem;
+  }
+  
+  .commenticon {
+    margin: 0 5px 0 5px;
+  }
+  
+  .allComments {
+    margin: 5vw 0 0 0;
+  }
+
+  .createComment{
+      float: right;
+  }
+  
