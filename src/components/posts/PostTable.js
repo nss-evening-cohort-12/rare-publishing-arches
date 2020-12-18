@@ -16,12 +16,14 @@ export const PostTable = () => {
     }, [])
 
     useEffect(() => {
+        posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
         const matchingPosts = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase()))
         setFiltered(matchingPosts)
     }, [searchTerms])
 
 
     useEffect(() => {
+        posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
         setFiltered(posts)
     }, [posts])
 
