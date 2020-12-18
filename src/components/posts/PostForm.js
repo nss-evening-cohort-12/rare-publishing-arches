@@ -134,7 +134,7 @@ export const PostForm = (props) => {
                         {
                             tags.map(tag => (
                                 <React.Fragment>
-                                    <input type="checkbox" name="tagsToAdd" className="form-check-input" value={tag.id} />
+                                    <input type="checkbox" name="tagsToAdd" className="form-check-input" value={tag.id} checked={post.tags.find(x => x.id === tag.id)} />
                                     <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
                                 </React.Fragment>
                             ))
