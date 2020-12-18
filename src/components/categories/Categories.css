@@ -1,27 +1,61 @@
+.categoriesContainer {
+  margin: 0 4rem; 
+}
+
+.categoriesContainer h1 {
+  margin: 0 10rem;
+}
+
 .categories {
-  background-color: lightskyblue;
-  color: black;
-  border-radius: 500px;
-  width: 20rem;
-  text-align: center;
   display: flex;
-  flex-wrap: nowrap;
-  flex-direction: row;
-  justify-content: start;
-  align-items: center;
-  height: 1rem;
+}
+
+.categoryicon {
+  margin: 0 5px 0 0;
+  margin-top: .75rem;
+}
+
+.dialog--editCategory {
+  border-radius: .5rem;
+}
+
+.editCategoryInput {
+  margin-top: 1rem;
+  width: 20rem;
+}
+
+.btn-outline-primary {
+  margin-top: 2rem;
+  width: 10rem;
+}
+
+.dialog--deleteCategory {
+  border-radius: .5rem;
+}
+
+.addCategoryForm {
+  border: 1px solid black;
+  border-radius: 3rem;
+  margin-top: 3rem;
+  padding: 1rem;
+  min-width: 25rem;
+  min-height: 15rem;
+}
+
+.categoryInput {
   padding: .5rem;
-  margin: .5rem;
+  width: 15rem;
 }
 
-.categoryName {
-  margin-right: auto;
+.createCategory {
+  border-radius: .5rem;
+  width: 8rem;
 }
 
-.categoryIcon {
-  margin: 0 5px 0 5px;
+.category__table {
+  width: 30rem;
 }
 
 .allCategories {
-  margin: 5vw 0 0 0;
+  margin-top: 3rem;
 }
