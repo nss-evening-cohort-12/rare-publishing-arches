@@ -10,6 +10,8 @@ import { TagProvider } from "./tags/TagProvider.js"
 import { TagList } from "./tags/TagList.js"
 import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
+import { CommentProvider } from "./comments/CommentProvider.js"
+import { PostComments } from "./comments/PostComments.js"
 
 
 export const ApplicationViews = () => {
@@ -48,6 +50,20 @@ export const ApplicationViews = () => {
                         <Route path="/posts/edit/:postId(\d+)" render={
                             props => <PostForm {...props} />
                         } />
+                        <CommentProvider>
+                        
+                        <Route path="/post/:postId(\d+)/comments" render={(props) => {
+                            return <>
+                                <main className="postContainer">
+                                    
+                                    <PostComments {...props}/>
+                                </main>
+
+                            </>
+                        }} />
+
+
+                        </CommentProvider>
                     </PostProvider>
                     <Route exact path="/tags" render={(props) => {
                         return <>
