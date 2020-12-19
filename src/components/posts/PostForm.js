@@ -60,8 +60,17 @@ export const PostForm = (props) => {
         if (editMode) {
             const postId = parseInt(props.match.params.postId)
             const selectedPost = posts.find(a => a.id === postId) || {}
+            selectedPost.category
+                ? selectedPost.category_id = selectedPost.category.id
+                : selectedPost.category_id = 0
             setPost(selectedPost)
         }
+    }
+
+    const createNewTags = () => {
+        const tempTags = []
+        tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
+        setNewTags(tempTags)
     }
 
     // Get data from API when component initilizes
@@ -75,14 +84,6 @@ export const PostForm = (props) => {
     useEffect(() => {
         getPostInEditMode()
     }, [posts])
-
-    useEffect(() => {
-        if (editMode) {
-            const tempTags = []
-            tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
-            setNewTags(tempTags)
-        }
-    }, [post])
 
 
     const constructNewPost = () => {
