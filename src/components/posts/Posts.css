@@ -54,3 +54,8 @@
     cursor: pointer;
     color: #5555FF
 }
+
+.post__hover__delete:hover {
+    cursor: pointer;
+    color: red;
+}
