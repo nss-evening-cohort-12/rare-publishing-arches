@@ -28,8 +28,8 @@ export const PostForm = (props) => {
             When changing a state object or array, always create a new one
             and change state instead of modifying current one
         */
-        const newPost = Object.assign({}, post) 
-        newPost[event.target.name] = event.target.value
+        const newPost = Object.assign({}, post)          // Create copy
+        newPost[event.target.name] = event.target.value    // Modify copy
         setPost(newPost)                                 // Set copy as new state
     }
 
