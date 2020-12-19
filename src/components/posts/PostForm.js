@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect, Fragment } from "react"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
+import { findByTestId } from "@testing-library/react"
 
 
 export const PostForm = (props) => {
@@ -17,7 +18,7 @@ export const PostForm = (props) => {
 
     // Component state
     const [post, setPost] = useState({})
-    const [tagsToAdd, setTagsToAdd] = useState([])
+    const [newTags, setNewTags] = useState([])
 
     // Is there a a URL parameter??
     const editMode = props.match.params.hasOwnProperty("postId")  // true or false
@@ -27,8 +28,18 @@ export const PostForm = (props) => {
             When changing a state object or array, always create a new one
             and change state instead of modifying current one
         */
-        const newPost = Object.assign({}, post)          // Create copy
-        newPost[event.target.name] = event.target.value    // Modify copy
+        const newPost = Object.assign({}, post) 
+        if (event.target.name === "tags") {
+            const findTag = newTags.indexOf(parseInt(event.target.value))
+            if (findTag > -1) {
+               const splicedTags = newTags.splice(findTag, 1)
+               setNewTags(splicedTags) 
+            } else {
+                const notSplicedTags = [...newTags] 
+                notSplicedTags.push(event.target.value)
+                setNewTags(notSplicedTags)
+            }
+        }    // Modify copy
         setPost(newPost)                                 // Set copy as new state
     }
 
@@ -58,6 +69,14 @@ export const PostForm = (props) => {
     useEffect(() => {
         getPostInEditMode()
     }, [posts])
+
+    useEffect(() => {
+        if (editMode) {
+            const tempTags = []
+            post.tags && post.tags.map(tag => tempTags.push(tag.id))
+            setNewTags(tempTags)
+        }
+    }, [post])
 
 
     const constructNewPost = () => {
@@ -134,7 +153,10 @@ export const PostForm = (props) => {
                         {
                             tags.map(tag => (
                                 <React.Fragment>
-                                    <input type="checkbox" name="tagsToAdd" className="form-check-input" value={tag.id} checked={post.tags.find(x => x.id === tag.id)} />
+                                    { editMode
+                                        ? <input type="checkbox" name="tags" className="form-check-input" value={tag.id} defaultChecked={newTags.find(x => x === tag.id)} onChange={handleControlledInputChange} />
+                                        : <input type="checkbox" name="tags" className="form-check-input" value={tag.id} onChange={handleControlledInputChange} />  
+                                    }
                                     <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
                                 </React.Fragment>
                             ))
