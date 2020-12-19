@@ -29,6 +29,7 @@ export const PostForm = (props) => {
             and change state instead of modifying current one
         */
         const newPost = Object.assign({}, post) 
+        newPost[event.target.name] = event.target.value
         setPost(newPost)                                 // Set copy as new state
     }
 
@@ -78,14 +79,14 @@ export const PostForm = (props) => {
     useEffect(() => {
         if (editMode) {
             const tempTags = []
-            tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags.find(t => t.id === tag.id) ? true : false}))
+            tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
             setNewTags(tempTags)
         }
     }, [post])
 
 
     const constructNewPost = () => {
-        const now = new Date();
+        const postTagsArray = [...newTags.map(pt => pt.id)]
 
         if (editMode) {
             // PUT
@@ -96,7 +97,8 @@ export const PostForm = (props) => {
                 category_id: parseInt(post.category_id),
                 publication_date: post.publication_date,
                 author_id: post.rareuser.id,
-                image_url: post.image_url
+                image_url: post.image_url,
+                tags: postTagsArray
             })
                 .then(() => props.history.push("/posts"))
         } else {
@@ -105,7 +107,8 @@ export const PostForm = (props) => {
                 title: post.title,
                 content: post.content,
                 category_id: post.category_id,
-                image_url: post.image_url
+                image_url: post.image_url,
+                tags: postTagsArray
             })
                 .then(() => props.history.push("/posts"))
         }
