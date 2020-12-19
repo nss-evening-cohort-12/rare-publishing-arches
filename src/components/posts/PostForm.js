@@ -85,9 +85,13 @@ export const PostForm = (props) => {
         getPostInEditMode()
     }, [posts])
 
+    useEffect(() => {
+        createNewTags()
+    }, [post, tags])
+
 
     const constructNewPost = () => {
-        const postTagsArray = [...newTags.map(pt => pt.id)]
+        const postTagsArray = newTags.filter(pt => pt.isChecked === true).map(nt => nt.id)
 
         if (editMode) {
             // PUT
@@ -161,10 +165,10 @@ export const PostForm = (props) => {
                     <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
                         {
                             newTags.map(tag => (
-                                <React.Fragment>
-                                    <input type="checkbox" name="tags" className="form-check-input" value={tag.id} defaultChecked={tag.isChecked} onChange={handleTagUpdate} />
+                                <Fragment key={tag.id}>
+                                    <input type="checkbox" name="tags" className="form-check-input" value={tag.id} checked={tag.isChecked} onChange={handleTagUpdate} />
                                     <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
-                                </React.Fragment>
+                                </Fragment>
                             ))
                         }
                     </div>
