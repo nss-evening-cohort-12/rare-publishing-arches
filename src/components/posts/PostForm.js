@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from "react"
+import React, { useContext, useState, useEffect, Fragment } from "react"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
+import { findByTestId } from "@testing-library/react"
 
 
 export const PostForm = (props) => {
@@ -17,6 +18,7 @@ export const PostForm = (props) => {
 
     // Component state
     const [post, setPost] = useState({})
+    const [newTags, setNewTags] = useState([])
 
     // Is there a a URL parameter??
     const editMode = props.match.params.hasOwnProperty("postId")  // true or false
@@ -31,6 +33,22 @@ export const PostForm = (props) => {
         setPost(newPost)                                 // Set copy as new state
     }
 
+    const handleTagUpdate = e => {
+        const updatedTagArray = []
+        newTags.forEach(loopTag => {
+            const newTag = {
+                id: loopTag.id,
+                label: loopTag.label,
+                isChecked:  parseInt(e.target.value) === loopTag.id ?
+                                e.target.checked
+                                ?  true : false
+                            : loopTag.isChecked ? true : false
+            }
+            updatedTagArray.push(newTag)
+        })
+        setNewTags(updatedTagArray)
+    }
+
     /*
         If there is a URL parameter, then the user has chosen to
         edit an post.
@@ -42,8 +60,17 @@ export const PostForm = (props) => {
         if (editMode) {
             const postId = parseInt(props.match.params.postId)
             const selectedPost = posts.find(a => a.id === postId) || {}
+            selectedPost.category
+                ? selectedPost.category_id = selectedPost.category.id
+                : selectedPost.category_id = 0
             setPost(selectedPost)
         }
+    }
+
+    const createNewTags = () => {
+        const tempTags = []
+        tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
+        setNewTags(tempTags)
     }
 
     // Get data from API when component initilizes
@@ -58,9 +85,13 @@ export const PostForm = (props) => {
         getPostInEditMode()
     }, [posts])
 
+    useEffect(() => {
+        createNewTags()
+    }, [post, tags])
+
 
     const constructNewPost = () => {
-        const now = new Date();
+        const postTagsArray = newTags.filter(pt => pt.isChecked === true).map(nt => nt.id)
 
         if (editMode) {
             // PUT
@@ -71,7 +102,8 @@ export const PostForm = (props) => {
                 category_id: parseInt(post.category_id),
                 publication_date: post.publication_date,
                 author_id: post.rareuser.id,
-                image_url: post.image_url
+                image_url: post.image_url,
+                tags: postTagsArray
             })
                 .then(() => props.history.push("/posts"))
         } else {
@@ -80,7 +112,8 @@ export const PostForm = (props) => {
                 title: post.title,
                 content: post.content,
                 category_id: post.category_id,
-                image_url: post.image_url
+                image_url: post.image_url,
+                tags: postTagsArray
             })
                 .then(() => props.history.push("/posts"))
         }
@@ -130,16 +163,14 @@ export const PostForm = (props) => {
                 </fieldset>
                 <fieldset>
                     <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
-                        <input type="checkbox" name="tag-1" className="form-check-input" />
-                        <label htmlFor="tag-1" className="form-check-label">Tag1</label>
-                        <input type="checkbox" name="tag-2" className="form-check-input" />
-                        <label htmlFor="tag-2" className="form-check-label">Tag2</label>
-                        <input type="checkbox" name="tag-3" className="form-check-input" />
-                        <label htmlFor="tag-3" className="form-check-label">Tag3</label>
-                        <input type="checkbox" name="tag-4" className="form-check-input" />
-                        <label htmlFor="tag-4" className="form-check-label">Tag4</label>
-                        <input type="checkbox" name="tag-5" className="form-check-input" />
-                        <label htmlFor="tag-5" className="form-check-label">Tag5</label>
+                        {
+                            newTags.map(tag => (
+                                <Fragment key={tag.id}>
+                                    <input type="checkbox" name="tags" className="form-check-input" value={tag.id} checked={tag.isChecked} onChange={handleTagUpdate} />
+                                    <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
+                                </Fragment>
+                            ))
+                        }
                     </div>
                 </fieldset>
 
