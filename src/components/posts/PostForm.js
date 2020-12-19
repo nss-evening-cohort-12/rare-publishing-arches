@@ -29,18 +29,23 @@ export const PostForm = (props) => {
             and change state instead of modifying current one
         */
         const newPost = Object.assign({}, post) 
-        if (event.target.name === "tags") {
-            const findTag = newTags.indexOf(parseInt(event.target.value))
-            if (findTag > -1) {
-               const splicedTags = newTags.splice(findTag, 1)
-               setNewTags(splicedTags) 
-            } else {
-                const notSplicedTags = [...newTags] 
-                notSplicedTags.push(event.target.value)
-                setNewTags(notSplicedTags)
-            }
-        }    // Modify copy
         setPost(newPost)                                 // Set copy as new state
+    }
+
+    const handleTagUpdate = e => {
+        const updatedTagArray = []
+        newTags.forEach(loopTag => {
+            const newTag = {
+                id: loopTag.id,
+                label: loopTag.label,
+                isChecked:  parseInt(e.target.value) === loopTag.id ?
+                                e.target.checked
+                                ?  true : false
+                            : loopTag.isChecked ? true : false
+            }
+            updatedTagArray.push(newTag)
+        })
+        setNewTags(updatedTagArray)
     }
 
     /*
@@ -73,7 +78,7 @@ export const PostForm = (props) => {
     useEffect(() => {
         if (editMode) {
             const tempTags = []
-            post.tags && post.tags.map(tag => tempTags.push(tag.id))
+            tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags.find(t => t.id === tag.id) ? true : false}))
             setNewTags(tempTags)
         }
     }, [post])
@@ -151,12 +156,9 @@ export const PostForm = (props) => {
                 <fieldset>
                     <div className="d-flex flex-row flex-wrap form-check form-check-inline mb-3">
                         {
-                            tags.map(tag => (
+                            newTags.map(tag => (
                                 <React.Fragment>
-                                    { editMode
-                                        ? <input type="checkbox" name="tags" className="form-check-input" value={tag.id} defaultChecked={newTags.find(x => x === tag.id)} onChange={handleControlledInputChange} />
-                                        : <input type="checkbox" name="tags" className="form-check-input" value={tag.id} onChange={handleControlledInputChange} />  
-                                    }
+                                    <input type="checkbox" name="tags" className="form-check-input" value={tag.id} defaultChecked={tag.isChecked} onChange={handleTagUpdate} />
                                     <label htmlFor="tagsToAdd" className="form-check-label">{tag.label}</label>
                                 </React.Fragment>
                             ))
