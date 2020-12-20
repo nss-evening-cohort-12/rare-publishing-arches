@@ -42,7 +42,11 @@ export const PostDetails = (props) => {
                     </div>
                 </div>
                 <div className="text-center">
-                    <img className="mb-5 img-fluid w-100" src="https://via.placeholder.com/400x100" />
+                    {post.post_image ? (
+                        <img className="mb-5 img-fluid w-100" src={post.post_image && post.post_image.post_image} />
+                    ) : (
+                            <img className="mb-5 img-fluid w-100" src="https://via.placeholder.com/400x200" />
+                        )}
                 </div>
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <div>

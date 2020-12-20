@@ -85,11 +85,23 @@ export const PostProvider = (props) => {
             .then(getPosts)
     }
 
+    const uploadPostImage = (postImage) => {
+        return fetch(`http://localhost:8000/uploads`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(postImage)
+        })
+            .then((res) => res.json())
+    }
+
     return (
         <PostContext.Provider value={{
             posts, addPost, getPosts, getPostById,
             searchTerms, setTerms, releasePost, updatePost,
-            getPostsByUserId
+            getPostsByUserId, uploadPostImage
         }}>
             {props.children}
         </PostContext.Provider>

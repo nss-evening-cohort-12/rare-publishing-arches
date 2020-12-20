@@ -2,12 +2,11 @@ import React, { useContext, useState, useEffect, Fragment } from "react"
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
-import { findByTestId } from "@testing-library/react"
 
 
 export const PostForm = (props) => {
     // Use the required context providers for data
-    const { addPost, posts, updatePost, getPosts } = useContext(PostContext)
+    const { addPost, posts, updatePost, getPosts, uploadPostImage } = useContext(PostContext)
     // const { profile, getProfile } = useContext(ProfileContext)
 
     // Tags data
@@ -19,6 +18,7 @@ export const PostForm = (props) => {
     // Component state
     const [post, setPost] = useState({})
     const [newTags, setNewTags] = useState([])
+    const [postImage, setPostImage] = useState({})
 
     // Is there a a URL parameter??
     const editMode = props.match.params.hasOwnProperty("postId")  // true or false
@@ -39,10 +39,10 @@ export const PostForm = (props) => {
             const newTag = {
                 id: loopTag.id,
                 label: loopTag.label,
-                isChecked:  parseInt(e.target.value) === loopTag.id ?
-                                e.target.checked
-                                ?  true : false
-                            : loopTag.isChecked ? true : false
+                isChecked: parseInt(e.target.value) === loopTag.id ?
+                    e.target.checked
+                        ? true : false
+                    : loopTag.isChecked ? true : false
             }
             updatedTagArray.push(newTag)
         })
@@ -69,8 +69,21 @@ export const PostForm = (props) => {
 
     const createNewTags = () => {
         const tempTags = []
-        tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
+        tags && tags.map(tag => tempTags.push({ id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false }))
         setNewTags(tempTags)
+    }
+
+    const getBase64 = (file, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(file);
+    }
+
+    const createPostImageString = (event) => {
+        getBase64(event.target.files[0], (base64ImageString) => {
+            // Update a component state variable to the value of base64ImageString
+            setPostImage({ base64: base64ImageString })
+        })
     }
 
     // Get data from API when component initilizes
@@ -89,33 +102,64 @@ export const PostForm = (props) => {
         createNewTags()
     }, [post, tags])
 
+    const callUpdatePost = (res, postTagsArray) => {
+        updatePost({
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            category_id: parseInt(post.category_id),
+            publication_date: post.publication_date,
+            author_id: post.rareuser.id,
+            image_url: post.image_url,
+            tags: postTagsArray,
+            post_image: res.post_image_id || postImage.base64
+        })
+            .then(() => props.history.push("/posts"))
+    }
+
+    const callAddPost = (res, postTagsArray) => {
+        addPost({
+            title: post.title,
+            content: post.content,
+            category_id: post.category_id,
+            image_url: post.image_url,
+            tags: postTagsArray,
+            post_image: res.post_image_id
+        })
+            .then(() => props.history.push("/posts"))
+    }
 
     const constructNewPost = () => {
         const postTagsArray = newTags.filter(pt => pt.isChecked === true).map(nt => nt.id)
 
         if (editMode) {
-            // PUT
-            updatePost({
-                id: post.id,
-                title: post.title,
-                content: post.content,
-                category_id: parseInt(post.category_id),
-                publication_date: post.publication_date,
-                author_id: post.rareuser.id,
-                image_url: post.image_url,
-                tags: postTagsArray
-            })
-                .then(() => props.history.push("/posts"))
+            // If an image needs to be uploaded
+            if (postImage && postImage.base64) {
+                // PUT
+                uploadPostImage({
+                    post_image_b64: postImage.base64
+                })
+                    .then((res) => {
+                        callUpdatePost(res, postTagsArray)
+                    })
+            } else { // If there is no image to be uploaded
+                callUpdatePost({ "post_image_id": (post.post_image && post.post_image.id) || null }, postTagsArray)
+            }
         } else {
             // POST
-            addPost({
-                title: post.title,
-                content: post.content,
-                category_id: post.category_id,
-                image_url: post.image_url,
-                tags: postTagsArray
-            })
-                .then(() => props.history.push("/posts"))
+
+            // If an image needs to be uploaded
+            if (postImage && postImage.base64) {
+                uploadPostImage({
+                    post_image_b64: postImage.base64
+                })
+                    .then((res) => res.json())
+                    .then((res) => {
+                        callAddPost(res, postTagsArray)
+                    })
+            } else { // if there is no image to be uploaded
+                callAddPost({ "post_image_id": (post.post_image && post.post_image.id) || null }, postTagsArray)
+            }
         }
 
     }
@@ -173,6 +217,13 @@ export const PostForm = (props) => {
                         }
                     </div>
                 </fieldset>
+                <div className="mt-3 mb-5">
+                    <input type="file" id="post_image" onChange={createPostImageString} />
+                    {/* <input type="hidden" name="post_id" value={post.id} /> */}
+                    {/* <button type="button" onClick={() => {
+                        // Upload the stringified image that is stored in state
+                    }}>Upload</button> */}
+                </div>
 
                 <button type="submit"
                     onClick={evt => {
