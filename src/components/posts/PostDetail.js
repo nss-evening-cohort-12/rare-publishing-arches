@@ -28,7 +28,7 @@ export const PostDetails = (props) => {
                     <button className="btn btn-outline-primary" onClick={e => deletePostModal.current.close()}>Cancel</button>
                 </div>
             </dialog>
-            <div className="post_details d-flex flex-column container">
+            <div className="post_details d-flex flex-column container mr-0">
                 <h3 className="post__title text-center">{post.title}</h3>
                 <div className="d-flex flex-row justify-content-between">
                     <div className="post__manage__buttons">
@@ -59,7 +59,7 @@ export const PostDetails = (props) => {
                     {post.content}
                 </div>
             </div>
-            <div className="mx-5">
+            <div className="mr-auto">
                 {post.tags && post.tags.map(tag => (
                     <div key={tag.id} className="d-flex align-items-center border border-primary rounded px-5 mb-3">{tag.label}</div>
                 ))}
