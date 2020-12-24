@@ -105,7 +105,7 @@ export const PostForm = (props) => {
                 image_url: post.image_url,
                 tags: postTagsArray
             })
-                .then(() => props.history.push("/posts"))
+                .then(() => props.history.push(`/posts/${post.id}`))
         } else {
             // POST
             addPost({
@@ -115,7 +115,7 @@ export const PostForm = (props) => {
                 image_url: post.image_url,
                 tags: postTagsArray
             })
-                .then(() => props.history.push("/posts"))
+                .then((newlyCreatedPost) => props.history.push(`/posts/${newlyCreatedPost.id}` ))
         }
 
     }
