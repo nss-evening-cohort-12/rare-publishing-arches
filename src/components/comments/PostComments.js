@@ -23,9 +23,11 @@ export const PostComments = (props) => {
     const postId = parseInt(props.match.params.postId)
 
     useEffect(() => {        
-        getCommentsByPostId(postId)           
+        getCommentsByPostId(postId)
+            .then(comments => comments.sort((a, b) => (a.created_on > b.created_on) ? -1 : 1))        
             .then(setFilteredComments)           
     }, [])
+
   
     // Component state
     const [comment, setComment] = useState({})
