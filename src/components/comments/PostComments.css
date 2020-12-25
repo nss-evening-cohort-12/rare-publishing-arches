@@ -25,6 +25,7 @@
   .commentInput {
     padding: .5rem;
     min-width: 25rem;
+    margin-top: 20px;
   }
   
   .commentname {
