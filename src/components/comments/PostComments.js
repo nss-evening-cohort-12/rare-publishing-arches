@@ -24,7 +24,8 @@ export const PostComments = (props) => {
 
     useEffect(() => {        
         getCommentsByPostId(postId)
-            .then(comments => comments.sort((a, b) => (a.created_on > b.created_on) ? -1 : 1))        
+            .then(comments => comments.sort((a, b) => (a.created_on > b.created_on) ? -1 : 1))
+            .then(comments => comments.filter((comment) => (Date.parse(comment.created_on) < Date.now())))       
             .then(setFilteredComments)           
     }, [])
 
