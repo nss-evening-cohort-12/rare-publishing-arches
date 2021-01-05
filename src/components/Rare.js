@@ -3,13 +3,16 @@ import { Route, Redirect } from "react-router-dom"
 import { ApplicationViews } from "./ApplicationViews"
 import { Login } from "./auth/Login"
 import { Register } from "./auth/Register"
+import { AuthProvider } from "./auth/AuthProvider.js"
 
 export const Rare = () => (
     <>
         <Route render={() => {
             if (localStorage.getItem("rare_user_id")) {
                 return <>
-                    <ApplicationViews />
+                    <AuthProvider>
+                        <ApplicationViews />
+                    </AuthProvider>
                 </>
             } else {
                 return <Redirect to="/login" />
