@@ -68,7 +68,7 @@ export const PostTable = () => {
                         {
                             filteredPosts.map(post => (
                                 <tr key={post.id}>
-                                    <div className="d-flex flex-row justify-content-around h-100 align-items-center">
+                                    <td className="d-flex flex-row justify-content-around h-100 align-items-center p-0">
                                         <Link to={`posts/edit/${post.id}`} ><i className="fas fa-cog"></i></Link>
                                         <i className="far fa-trash-alt text-danger"
                                             onClick={() => {
@@ -76,7 +76,7 @@ export const PostTable = () => {
                                                 deletePostModal.current.showModal()
                                             }}
                                         ></i>
-                                    </div>
+                                    </td>
                                     <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                     <td>{post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</td>
                                     <td>{post.publication_date}</td>

@@ -1,10 +1,17 @@
-import React from "react"
+import React, { useContext, useEffect, useState } from "react"
+import { AuthContext } from '../auth/AuthProvider'
 import { Link, useHistory } from "react-router-dom"
+
 import "./NavBar.css"
 import Logo from "./rare.jpeg"
 
 export const NavBar = () => {
-    const history = useHistory()
+    const { getUserAdminStatus, isAdmin } = useContext(AuthContext);
+    const history = useHistory();
+
+    useEffect(() => {
+        getUserAdminStatus()
+    }, [])
 
     return (
         <ul className="mt-3">
@@ -24,18 +31,22 @@ export const NavBar = () => {
                         <Link to="/user/posts" className="btn btn-outline-primary w-100">My Posts</Link>
                     </div>
                 </li>
-                <li className="navbar__item mx-3">
-                    <div className="d-flex justify-content-center">
-                        <Link to="/categories" className="btn btn-outline-primary w-100">Category Manager</Link>
-                    </div>
-                </li>
-                <li className="navbar__item mx-3">
-                    <div className="d-flex justify-content-center">
-                        <Link to="/tags" className="btn btn-outline-primary w-100">Tag Manager</Link>
-                    </div>
-                </li>
+                {isAdmin ? (
+                    <li className="navbar__item mx-3">
+                        <div className="d-flex justify-content-center">
+                            <Link to="/categories" className="btn btn-outline-primary w-100">Category Manager</Link>
+                        </div>
+                    </li>
+                ) : (<></>)}
+                {isAdmin ? (
+                    <li className="navbar__item mx-3">
+                        <div className="d-flex justify-content-center">
+                            <Link to="/tags" className="btn btn-outline-primary w-100">Tag Manager</Link>
+                        </div>
+                    </li>
+                ) : (<></>)}
                 {/* Change 'true' to whatever the is_admin check will be */}
-                {true ? (
+                {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
                             <Link to="/" className="btn btn-outline-primary w-100">User Manager</Link>
