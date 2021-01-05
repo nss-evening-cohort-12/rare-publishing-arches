@@ -31,11 +31,13 @@ export const NavBar = () => {
                         <Link to="/user/posts" className="btn btn-outline-primary w-100">My Posts</Link>
                     </div>
                 </li>
-                <li className="navbar__item mx-3">
-                    <div className="d-flex justify-content-center">
-                        <Link to="/categories" className="btn btn-outline-primary w-100">Category Manager</Link>
-                    </div>
-                </li>
+                {isAdmin ? (
+                    <li className="navbar__item mx-3">
+                        <div className="d-flex justify-content-center">
+                            <Link to="/categories" className="btn btn-outline-primary w-100">Category Manager</Link>
+                        </div>
+                    </li>
+                ) : (<></>)}
                 {isAdmin ? (
                     <li className="navbar__item mx-3">
                         <div className="d-flex justify-content-center">
