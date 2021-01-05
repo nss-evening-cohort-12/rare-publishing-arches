@@ -72,10 +72,14 @@ export const ApplicationViews = () => {
                         </PostProvider>
                         <Route exact path="/tags" render={(props) => {
                             return <>
-                                <main className="tagsContainer">
+                            { 
+                            isAdmin 
+                                ? <main className="tagsContainer">
                                     <h1>Available Tags</h1>
                                     <TagList {...props} />
-                                </main>
+                                  </main>
+                                : <Redirect to="/" />
+                            }
                             </>
                         }} />
                     </TagProvider>
