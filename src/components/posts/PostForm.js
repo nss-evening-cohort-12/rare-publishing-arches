@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect, Fragment } from "react"
+import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
@@ -20,6 +21,9 @@ export const PostForm = (props) => {
     const [post, setPost] = useState({})
     const [newTags, setNewTags] = useState([])
 
+    // History
+    const history = useHistory();
+
     // Is there a a URL parameter??
     const editMode = props.match.params.hasOwnProperty("postId")  // true or false
 
@@ -39,10 +43,10 @@ export const PostForm = (props) => {
             const newTag = {
                 id: loopTag.id,
                 label: loopTag.label,
-                isChecked:  parseInt(e.target.value) === loopTag.id ?
-                                e.target.checked
-                                ?  true : false
-                            : loopTag.isChecked ? true : false
+                isChecked: parseInt(e.target.value) === loopTag.id ?
+                    e.target.checked
+                        ? true : false
+                    : loopTag.isChecked ? true : false
             }
             updatedTagArray.push(newTag)
         })
@@ -69,7 +73,7 @@ export const PostForm = (props) => {
 
     const createNewTags = () => {
         const tempTags = []
-        tags && tags.map(tag => tempTags.push({id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false}))
+        tags && tags.map(tag => tempTags.push({ id: tag.id, label: tag.label, isChecked: post.tags && post.tags.find(t => t.id === tag.id) ? true : false }))
         setNewTags(tempTags)
     }
 
@@ -182,6 +186,8 @@ export const PostForm = (props) => {
                     className="btn btn-primary">
                     {editMode ? "Save" : "Publish"}
                 </button>
+                <button type="button" onClick={() => history.goBack()}
+                    className="btn btn-secondary ml-5">Cancel</button>
             </form>
         </div>
     )
