@@ -60,7 +60,7 @@ export const PostProvider = (props) => {
             },
             body: JSON.stringify(post)
         })
-            .then(getPosts)
+            .then(res => res.json())
     }
 
     const updatePost = post => {

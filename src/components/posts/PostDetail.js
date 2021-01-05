@@ -46,7 +46,8 @@ export const PostDetails = (props) => {
                 </div>
                 <div className="d-flex flex-row justify-content-between align-items-center">
                     <div>
-                        <small>By {post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</small>
+                        <small >Published on {post.publication_date} </small>
+                        <small className="d-block"> By {post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</small>
                     </div>
                     <div>
                         <button className="btn btn-outline-primary" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>

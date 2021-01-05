@@ -24,7 +24,8 @@ export const PostComments = (props) => {
 
     useEffect(() => {        
         getCommentsByPostId(postId)
-            .then(comments => comments.sort((a, b) => (a.created_on > b.created_on) ? -1 : 1))        
+            .then(comments => comments.sort((a, b) => (a.created_on > b.created_on) ? -1 : 1))
+            .then(comments => comments.filter((comment) => (Date.parse(comment.created_on) < Date.now())))       
             .then(setFilteredComments)           
     }, [])
 
@@ -90,7 +91,10 @@ export const PostComments = (props) => {
                             <h2>Post Title's Comments</h2>
                             <input className="commentInput" name="subject" type="text" placeholder="Add subject" defaultValue={comment.subject} onChange={handleControlledInputChange}></input>
                             <textarea className="commentInput" name="content" type="text" placeholder="Add content" value={comment.content} onChange={handleControlledInputChange}></textarea>
-                            <button className="createComment" onClick={handleInput}>Create</button>
+                            <button className="btn btn-outline-primary mt-3" onClick={handleInput}>Create</button>
+                            <button className="btn btn-outline-primary mt-3" onClick={() => props.history.push(`/posts/${postId}`)}>Back to post</button>
+                            
+                            
                         </div>
                     </div>
                     <dialog className="dialog dialog--editComment" ref={editCommentDialog}>

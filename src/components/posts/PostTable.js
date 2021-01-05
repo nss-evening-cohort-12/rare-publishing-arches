@@ -20,13 +20,15 @@ export const PostTable = () => {
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
         const matchingPosts = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase()))
-        setFiltered(matchingPosts)
+        const validPosts = matchingPosts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true))
+        setFiltered(validPosts)
     }, [searchTerms])
 
 
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
-        setFiltered(posts)
+        const validPosts = posts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true))
+        setFiltered(validPosts)
     }, [posts])
 
     return (
