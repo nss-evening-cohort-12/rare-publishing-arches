@@ -1,5 +1,5 @@
-import React from "react"
-import { Route } from "react-router-dom"
+import React, { useContext } from "react"
+import { Route, Redirect } from "react-router-dom"
 import { PostDetails } from "./posts/PostDetail.js"
 import { PostSearch } from "./posts/PostSearch.js"
 import { PostProvider } from "./posts/PostProvider.js"
@@ -12,13 +12,14 @@ import { CategoryProvider } from './categories/CategoryProvider.js'
 import { CategoryList } from './categories/CategoryList'
 import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
-import { AuthProvider } from "./auth/AuthProvider.js"
 import { NavBar } from "./nav/NavBar"
+import { AuthContext } from "./auth/AuthProvider.js"
 
 
 export const ApplicationViews = () => {
+    const { isAdmin } = useContext(AuthContext);
+
     return <>
-        <AuthProvider>
             <NavBar />
             <main style={{
                 margin: "1rem 2rem",
@@ -80,14 +81,17 @@ export const ApplicationViews = () => {
                     </TagProvider>
                     <Route exact path='/categories' render={() => {
                         return <>
-                            <main className='categoriesContainer'>
-                                <h1>Categories</h1>
+                        { 
+                        isAdmin 
+                            ? <main className="categoriesContainer">
+                                <h1>Available Categories</h1>
                                 <CategoryList />
                             </main>
+                            : <Redirect to="/" />
+                        }
                         </>
                     }} />
                 </CategoryProvider>
             </main>
-        </AuthProvider>
     </>
 }
