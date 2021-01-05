@@ -1,25 +1,28 @@
 import React, { useState } from "react"
 
-export const ProfileContext = React.createContext()
+export const AuthContext = React.createContext()
 
-export const ProfileProvider = (props) => {
-    const [profile, setProfile] = useState({events:[]})
+export const AuthProvider = (props) => {
+    const [isAdmin, setIsAdmin] = useState(false);
 
-    const getProfile = () => {
-        return fetch("http://localhost:8000/profile", {
+    const getUserAdminStatus = () => {
+        const body = { "token": `${localStorage.getItem("rare_user_id")}` }
+        return fetch("http://localhost:8000/is_admin", {
+            method: "POST",
             headers: {
-                "Authorization": `Token ${localStorage.getItem("lu_token")}`
-            }
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(body)
         })
             .then(response => response.json())
-            .then(setProfile)
+            .then(response => setIsAdmin(response.is_user_admin))
     }
 
     return (
-        <ProfileContext.Provider value={{
-            profile, getProfile
+        <AuthContext.Provider value={{
+            getUserAdminStatus, isAdmin
         }}>
             {props.children}
-        </ProfileContext.Provider>
+        </AuthContext.Provider>
     )
 }
