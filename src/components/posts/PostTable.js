@@ -5,7 +5,7 @@ import { AuthContext } from '../auth/AuthProvider'
 import "./Posts.css"
 
 export const PostTable = () => {
-    const { getPosts, posts, searchTerms, releasePost, updatePost } = useContext(PostContext)
+    const { getPosts, posts, searchTerms, releasePost, partialyUpdatePost } = useContext(PostContext)
     const { isAdmin } = useContext(AuthContext)
     const history = useHistory();
     const deletePostModal = useRef();
@@ -36,20 +36,27 @@ export const PostTable = () => {
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
         const matchingPosts = posts.filter(post => post.title.toLowerCase().includes(searchTerms.toLowerCase()))
-        const validPosts = matchingPosts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true))
+        let validPosts = []
+        isAdmin ? 
+        (validPosts = matchingPosts.filter((post) => (Date.parse(post.publication_date) < Date.now()))) :
+        (validPosts = matchingPosts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true)))      
         setFiltered(validPosts)
     }, [searchTerms])
 
 
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
-        const validPosts = posts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true))
+        let validPosts = []
+        isAdmin ?
+        (validPosts = posts.filter((post) => (Date.parse(post.publication_date) < Date.now()))) :
+        (validPosts = posts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true)))
         setFiltered(validPosts)
     }, [posts])
 
-    const handleTagUpdate = e => {
-        
-        
+    const handleIsApprovedUpdate = e => {
+        const postId = parseInt(e.target.value)
+        const partialObject = {"approved" : e.target.checked }    
+        partialyUpdatePost(postId, partialObject)        
     }
 
     return (
@@ -108,7 +115,7 @@ export const PostTable = () => {
                                     <td>{post.category && post.category.label}</td>
                                     <td>{post.tags && post.tags.label}</td>
                                     {isAdmin ? (<td>
-                                        <input type="checkbox" name="isApproved" checked={post.approved} value={post.id} onChange={handleTagUpdate} />
+                                        <input type="checkbox" name="isApproved" checked={post.approved} value={post.id} onChange={handleIsApprovedUpdate} />
                                         </td>) : (<></>) }
                                 </tr>
                             ))
