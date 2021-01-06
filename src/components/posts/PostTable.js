@@ -6,16 +6,31 @@ import "./Posts.css"
 
 export const PostTable = () => {
     const { getPosts, posts, searchTerms, releasePost, updatePost } = useContext(PostContext)
-    const { isAdmin } = useContext(AuthContext);
+    const { isAdmin } = useContext(AuthContext)
     const history = useHistory();
     const deletePostModal = useRef();
 
+    const [userId, setUserId] = useState(-1)
     const [filteredPosts, setFiltered] = useState([])
     const [postToBeDeleted, setPostToBeDeleted] = useState(0)
+
+    const getUserId = () => {
+        const body = { "token": `${localStorage.getItem("rare_user_id")}` }
+        return fetch("http://localhost:8000/get_current_user", {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(body)
+        })
+            .then(res => res.json())
+            .then(res => setUserId(res.user_id))
+    }
 
     // Initialization effect hook -> Go get post data
     useEffect(() => {
         getPosts()
+        getUserId()
     }, [])
 
     useEffect(() => {
@@ -75,15 +90,18 @@ export const PostTable = () => {
                         {
                             filteredPosts.map(post => (
                                 <tr key={post.id}>
-                                    <td className="d-flex flex-row justify-content-around h-100 align-items-center p-0">
-                                        <Link to={`posts/edit/${post.id}`} ><i className="fas fa-cog"></i></Link>
-                                        <i className="far fa-trash-alt text-danger"
-                                            onClick={() => {
-                                                setPostToBeDeleted(post.id)
-                                                deletePostModal.current.showModal()
-                                            }}
-                                        ></i>
-                                    </td>
+                                    {((post.rareuser && post.rareuser.id) == userId) || (isAdmin) ? (
+                                        <td className="p-0">
+                                            <div className="d-flex flex-row justify-content-around h-100 align-items-center">
+                                                <Link to={`posts/edit/${post.id}`} ><i className="fas fa-cog"></i></Link>
+                                                <i className="far fa-trash-alt text-danger post__hover__delete"
+                                                    onClick={() => {
+                                                        setPostToBeDeleted(post.id)
+                                                        deletePostModal.current.showModal()
+                                                    }}
+                                                ></i>
+                                            </div>
+                                        </td>) : <td></td>}
                                     <td><Link to={`/posts/${post.id}`}>{post.title}</Link></td>
                                     <td>{post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</td>
                                     <td>{post.publication_date}</td>
