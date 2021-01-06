@@ -1,11 +1,12 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import { Link, useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
-import Post from "./Post"
+import { AuthContext } from '../auth/AuthProvider'
 import "./Posts.css"
 
 export const PostTable = () => {
-    const { getPosts, posts, searchTerms, releasePost } = useContext(PostContext)
+    const { getPosts, posts, searchTerms, releasePost, updatePost } = useContext(PostContext)
+    const { isAdmin } = useContext(AuthContext);
     const history = useHistory();
     const deletePostModal = useRef();
 
@@ -30,6 +31,11 @@ export const PostTable = () => {
         const validPosts = posts.filter((post) => (Date.parse(post.publication_date) < Date.now()) && (post.approved === true))
         setFiltered(validPosts)
     }, [posts])
+
+    const handleTagUpdate = e => {
+        
+        
+    }
 
     return (
         <div>
@@ -62,6 +68,7 @@ export const PostTable = () => {
                             <th scope="col">Date</th>
                             <th scope="col">Category</th>
                             <th scope="col">Tags</th>
+                            {isAdmin ? (<th scope="col">Approved</th>) : (<></>) }
                         </tr>
                     </thead>
                     <tbody>
@@ -82,6 +89,9 @@ export const PostTable = () => {
                                     <td>{post.publication_date}</td>
                                     <td>{post.category && post.category.label}</td>
                                     <td>{post.tags && post.tags.label}</td>
+                                    {isAdmin ? (<td>
+                                        <input type="checkbox" name="isApproved" checked={post.approved} value={post.id} onChange={handleTagUpdate} />
+                                        </td>) : (<></>) }
                                 </tr>
                             ))
                         }
