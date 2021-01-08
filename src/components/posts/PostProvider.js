@@ -85,11 +85,23 @@ export const PostProvider = (props) => {
             .then(getPosts)
     }
 
+    const partialyUpdatePost = (postId, partialBody) => {
+        return fetch(`http://localhost:8000/posts/${postId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(partialBody)
+        })
+            .then(getPosts)
+    }
+
     return (
         <PostContext.Provider value={{
             posts, addPost, getPosts, getPostById,
             searchTerms, setTerms, releasePost, updatePost,
-            getPostsByUserId
+            getPostsByUserId, partialyUpdatePost
         }}>
             {props.children}
         </PostContext.Provider>
