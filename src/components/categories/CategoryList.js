@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect, useRef } from "react"
 import { CategoryContext } from "./CategoryProvider"
+import { Category } from "./Category"
 import "./Categories.css"
-import Category from "./Category"
+
 
 export const CategoryList = (props) => {
   const { categories, getCategories, createCategory, updateCategory, deleteCategory } = useContext(CategoryContext)

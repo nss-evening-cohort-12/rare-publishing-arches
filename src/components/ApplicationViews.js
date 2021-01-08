@@ -14,6 +14,7 @@ import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
 import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
+import { CategoryPost } from "./categories/CategoryPost.js"
 
 
 export const ApplicationViews = () => {
@@ -95,6 +96,19 @@ export const ApplicationViews = () => {
                         }
                         </>
                     }} />
+
+                    <Route path="/categories/:categoryId(\d+)" render={props => {
+                        return <>
+                        {
+                        isAdmin
+                            ? <main className="categoryPostContainer">
+                                <CategoryPost {...props} />
+                            </main>
+                            : <Redirect to="/" />
+                        }
+                        </>
+                    }} />
+                        
                 </CategoryProvider>
             </main>
     </>
