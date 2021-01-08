@@ -19,7 +19,7 @@ export const CategoryPost = (props) => {
       <section>
         <div className="categoryPostContainer">
           <div className="categoryPost__title" id={props.match.params.categoryId}>
-            <h1>{categories.find(category => category.id == props.match.params.categoryId)}</h1>
+            <h1>{categories.find(category => category.id == props.match.params.categoryId).label}</h1>
           </div>
           <div className="d-flex flex-row justify-content-end"></div>
             <div className="category__post post__list mt-5 mx-5 px-3">
