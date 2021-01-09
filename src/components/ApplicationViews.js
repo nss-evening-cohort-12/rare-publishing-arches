@@ -101,8 +101,7 @@ export const ApplicationViews = () => {
                         return <>
                         { 
                         isAdmin 
-                            ? <main className="usersContainer">
-                                <h1>Users</h1>
+                            ? <main className="usersContainer">                                
                                 <UserTable />
                             </main>
                             : <Redirect to="/" />
