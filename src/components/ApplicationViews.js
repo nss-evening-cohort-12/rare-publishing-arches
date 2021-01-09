@@ -14,6 +14,7 @@ import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
 import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
+import { UserTable } from "./users/UserTable.js"
 
 
 export const ApplicationViews = () => {
@@ -96,6 +97,17 @@ export const ApplicationViews = () => {
                         </>
                     }} />
                 </CategoryProvider>
+                <Route exact path='/users' render={() => {
+                        return <>
+                        { 
+                        isAdmin 
+                            ? <main className="usersContainer">                                
+                                <UserTable />
+                            </main>
+                            : <Redirect to="/" />
+                        }
+                        </>
+                    }} />
             </main>
     </>
 }
