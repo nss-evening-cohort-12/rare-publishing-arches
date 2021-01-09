@@ -11,11 +11,39 @@ export const PostDetails = (props) => {
 
     const [post, setPost] = useState({})
 
+    const [reactionCounts, setReactionCounts] = useState([])
+
     useEffect(() => {
         const postId = parseInt(props.match.params.postId)
         getPostById(postId)
             .then(setPost)
     }, [])
+
+    const getReactionCounts = (reactionsArray) => {
+        var reactionCountsArray = [];
+        var reactionCounts = {}
+
+        // Initialize the reactionCounts array with the reaction and its respective count
+        reactionsArray.forEach(reaction => {
+            reactionCounts[reaction.reaction.id] = { ...reaction.reaction, "count": 0 }
+        })
+
+        // Loop over each reaction on the post and count the unique reactions
+        reactionsArray.forEach(reaction => {
+            reactionCounts[reaction.reaction.id].count += 1
+        })
+
+        Object.keys(reactionCounts).forEach(reaction => {
+            reactionCountsArray.push(reactionCounts[reaction])
+        })
+
+        // Set the counts of the unique reactions
+        setReactionCounts(reactionCountsArray)
+    }
+
+    useEffect(() => {
+        post.reactions && getReactionCounts(post.reactions)
+    }, [post])
 
     return (
         <section className="post d-flex flex-row">
@@ -54,9 +82,11 @@ export const PostDetails = (props) => {
                         <button className="btn btn-outline-primary" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
                     </div>
                     <div className="d-flex align-items-center border border-primary rounded px-3 h-100">
-                        {post.reactions && post.reactions.length > 0 ? (post.reactions && post.reactions.map(react => (
-                            <Reaction reaction={react.reaction} />
-                        ))) : ('No Reactions Yet')}
+                        {post.reactions && post.reactions.length > 0 ? (
+                            reactionCounts && reactionCounts.map(reaction => (
+                                <Reaction key={reaction.id} reaction={reaction} />
+                            ))
+                        ) : ('No Reactions Yet')}
                     </div>
                 </div>
                 <div className="post__content">
