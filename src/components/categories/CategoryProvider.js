@@ -15,6 +15,15 @@ export const CategoryProvider = (props) => {
       .then(setCategories)
   }
 
+  const getPostByCategoryId = (categoryId) => {
+    return fetch(`http://localhost:8000/posts?category=${categoryId}`, {
+      headers: {
+        "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+      }
+    })
+      .then(res => res.json())
+  }
+
   const createCategory = category => {
     return fetch('http://localhost:8000/categories', {
       method: 'POST',
@@ -51,7 +60,8 @@ export const CategoryProvider = (props) => {
 
   return (
     <CategoryContext.Provider value={{
-      categories, getCategories, createCategory, updateCategory, deleteCategory
+      categories, getCategories, createCategory, updateCategory, deleteCategory,
+      getPostByCategoryId
     }}>
       {props.children}
     </CategoryContext.Provider>

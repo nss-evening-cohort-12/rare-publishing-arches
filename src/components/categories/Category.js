@@ -12,9 +12,11 @@ export default (props) => (
     }></i></div>
     <div className="category__table">
       <table className="table table-bordered">
+        <tbody>
           <tr>
             <td><Link to={`/categories/${props.category.id}`}>{props.category.label}</Link></td>
           </tr>
+        </tbody>
       </table>
     </div>
   </div>
