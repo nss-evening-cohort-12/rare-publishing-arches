@@ -5,16 +5,16 @@ import Post from "./Post"
 import "./Posts.css"
 
 export const PostList = (props) => {
-    const { getPosts, posts, searchTerms, getPostsByUserId } = useContext(PostContext)
+    const { getPosts, posts, searchTerms, getPostsByCurrentUserId } = useContext(PostContext)
     const history = useHistory();
 
     const [filteredPosts, setFiltered] = useState([])
 
     // Initialization effect hook -> Go get post data
     useEffect(() => {
-        if (props.location && props.location.pathname == '/user/posts') {
+        if (props.location && props.location.pathname === '/user/posts') {
             // get posts by user id
-            getPostsByUserId()
+            getPostsByCurrentUserId()
         } else {
             // get all posts
             getPosts()

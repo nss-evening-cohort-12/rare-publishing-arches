@@ -29,9 +29,18 @@ export const AuthProvider = (props) => {
             .then(setUsers)
     }
 
+    const getUserById = (id) => {
+        return fetch(`http://localhost:8000/users/${id}`, {
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            }
+        })
+            .then(res => res.json())
+    }
+
     return (
         <AuthContext.Provider value={{
-            getUserAdminStatus, isAdmin, getUsers, users
+            getUserAdminStatus, isAdmin, getUsers, users, getUserById
         }}>
             {props.children}
         </AuthContext.Provider>

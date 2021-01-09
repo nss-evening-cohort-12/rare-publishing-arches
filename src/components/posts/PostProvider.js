@@ -16,7 +16,7 @@ export const PostProvider = (props) => {
             .then(setPosts)
     }
 
-    const getPostsByUserId = () => {
+    const getPostsByCurrentUserId = () => {
         const body = { "token": `${localStorage.getItem("rare_user_id")}` }
         return fetch("http://localhost:8000/get_current_user", {
             method: "POST",
@@ -35,6 +35,11 @@ export const PostProvider = (props) => {
                     .then(res => res.json())
                     .then(res => setPosts(res.posts))
             })
+    }
+
+    const getPostsByUserId = (id) => {
+        const body = { "token": `${localStorage.getItem("rare_user_id")}` }
+        return fetch(`http://localhost:8000/posts?userId=${id}`)
     }
 
     // const getPostById = (id) => {
@@ -101,7 +106,7 @@ export const PostProvider = (props) => {
         <PostContext.Provider value={{
             posts, addPost, getPosts, getPostById,
             searchTerms, setTerms, releasePost, updatePost,
-            getPostsByUserId, partialyUpdatePost
+            getPostsByCurrentUserId, partialyUpdatePost
         }}>
             {props.children}
         </PostContext.Provider>
