@@ -3,6 +3,7 @@ import { CategoryContext } from "./CategoryProvider"
 import "./Categories.css"
 import Category from "./Category"
 
+
 export const CategoryList = (props) => {
   const { categories, getCategories, createCategory, updateCategory, deleteCategory } = useContext(CategoryContext)
   const [ newCategory, setNewCategory ] = useState("")
