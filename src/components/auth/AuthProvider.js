@@ -29,9 +29,21 @@ export const AuthProvider = (props) => {
             .then(setUsers)
     }
 
+    const partialyUpdateUser = (rareuserId, partialBody) => {
+        return fetch(`http://localhost:8000/users/${rareuserId}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(partialBody)
+        })
+            .then(getUsers)
+    }
+
     return (
         <AuthContext.Provider value={{
-            getUserAdminStatus, isAdmin, getUsers, users
+            getUserAdminStatus, isAdmin, getUsers, users, partialyUpdateUser
         }}>
             {props.children}
         </AuthContext.Provider>

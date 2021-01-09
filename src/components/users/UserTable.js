@@ -4,7 +4,7 @@ import { AuthContext } from '../auth/AuthProvider'
 import "./Users.css"
 
 export const UserTable = () => {
-    const { isAdmin, getUsers, users } = useContext(AuthContext)
+    const { isAdmin, getUsers, users, partialyUpdateUser } = useContext(AuthContext)
     const [sortedUsers, setSortedUsers] = useState([])    
 
     useEffect(() => {
@@ -18,6 +18,14 @@ export const UserTable = () => {
 
     const handleIsApprovedUpdate = e => {
               
+    }
+
+    const handleIsActive = e => {
+        const rareuserId = parseInt(e.target.value)
+        const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
+        const userId = selectedRareuser.user.id
+        const partialObject = {"user" : {"is_active" : e.target.checked, "id": userId} }   
+        partialyUpdateUser(rareuserId, partialObject)
     }
 
     return (
@@ -38,7 +46,7 @@ export const UserTable = () => {
                                         <span>{rareuser.user.first_name} {rareuser.user.first_name}</span>
                                     </td>
                                     <td>
-                                        <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={handleIsApprovedUpdate} />
+                                        <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={handleIsActive} />
                                         <label className="form-check-label">Active</label>
                                     </td>
                                     
