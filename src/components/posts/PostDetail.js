@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
+import { Reaction } from "../reactions/Reaction"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
@@ -53,7 +54,9 @@ export const PostDetails = (props) => {
                         <button className="btn btn-outline-primary" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
                     </div>
                     <div className="d-flex align-items-center border border-primary rounded px-3 h-100">
-                        Reactions go here
+                        {post.reactions && post.reactions.length > 0 ? (post.reactions && post.reactions.map(react => (
+                            <Reaction reaction={react.reaction} />
+                        ))) : ('No Reactions Yet')}
                     </div>
                 </div>
                 <div className="post__content">

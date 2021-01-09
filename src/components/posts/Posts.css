@@ -59,3 +59,8 @@
     cursor: pointer;
     color: red;
 }
+
+.reaction__image {
+    height: 50px;
+    width: 50px;
+}
