@@ -8,10 +8,12 @@ export const UserTable = () => {
     const [sortedUsers, setSortedUsers] = useState([])   
     const deleteUserModal = useRef(); 
     const tempPopupModal = useRef();
+    const changeUserTypeModal = useRef();
     const history = useHistory();
 
-    const [userToBeDReactivated, setUserToBeDReactivated] = useState(0)
+    const [selectedUser, setSelectedUser] = useState(0)
     const [checkboxStatus, setCheckboxStatus] = useState(true)
+    const [adminRadioStatus, setAdminRadioStatus] = useState(false)
 
     useEffect(() => {
         getUsers()        
@@ -22,8 +24,14 @@ export const UserTable = () => {
         setSortedUsers(tempSortedUsers)
     }, [users])
 
-    const handleIsApprovedUpdate = e => {
-              
+    const handleUserType = e => {
+        const rareuserId = selectedUser
+        const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
+        const userId = selectedRareuser.user.id
+        const partialObject = {"user" : {"is_staff" : adminRadioStatus, "id": userId} }   
+        partialyUpdateUser(rareuserId, partialObject)
+            .then(history.push("/users"))
+            .then(changeUserTypeModal.current.close())              
     }
 
     const showDeactivated = e => {
@@ -39,7 +47,7 @@ export const UserTable = () => {
     }
 
     const handleIsActive = e => {
-        const rareuserId = userToBeDReactivated
+        const rareuserId = selectedUser
         const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
         const userId = selectedRareuser.user.id
         const partialObject = {"user" : {"is_active" : checkboxStatus, "id": userId} }   
@@ -58,6 +66,16 @@ export const UserTable = () => {
                 <div className="d-flex flex-row justify-content-around align-items-center w-100">
                     <button className="deleteUser btn btn-outline-primary" onClick={handleIsActive}>Ok</button>
                     <button className="btn btn-outline-primary" onClick={e => deleteUserModal.current.close()}>Cancel</button>
+                </div>
+            </dialog>
+            <dialog className="dialog " ref={changeUserTypeModal}>
+                { adminRadioStatus ?
+                <h4>Are you sure you want to promote this user to admin?</h4>:
+                <h4>Are you sure you want to demote this user to author?</h4>                
+                }                
+                <div className="d-flex flex-row justify-content-around align-items-center w-100">
+                    <button className="btn btn-outline-primary" onClick={handleUserType}>Ok</button>
+                    <button className="btn btn-outline-primary" onClick={e => changeUserTypeModal.current.close()}>Cancel</button>
                 </div>
             </dialog>
             <dialog className="dialog" ref={tempPopupModal}>                
@@ -88,18 +106,26 @@ export const UserTable = () => {
                                     </td>
                                     <td>
                                         <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={(e) => {
-                                            setUserToBeDReactivated(rareuser.id)
+                                            setSelectedUser(rareuser.id)
                                             setCheckboxStatus(e.target.checked)
                                             deleteUserModal.current.showModal()
                                             }} />
                                         <label className="form-check-label">Active</label>
                                     </td>
                                     
-                                    <td className="d-flex justify-content-center align-items-center" onchange={handleIsApprovedUpdate}>           
-                                        <input type="radio" className="mr-2" name={rareuser.user.id} checked={!(rareuser.user.is_staff)} value={rareuser.user.id} />
+                                    <td className="d-flex justify-content-center align-items-center" onChange = {(e) => {
+                                        setSelectedUser(rareuser.id)
+                                        if (e.target.value === "admin") {
+                                            setAdminRadioStatus(true) }
+                                        else {
+                                            setAdminRadioStatus(false)
+                                        } 
+                                        changeUserTypeModal.current.showModal()
+                                    }} >           
+                                        <input type="radio" className="mr-2" name={rareuser.user.id} checked={!(rareuser.user.is_staff)} value="author" />
                                         <label className="form-check-label mr-4">Author</label>
                                     
-                                        <input type="radio" className="mx-2" name={rareuser.user.id} checked={rareuser.user.is_staff} value={rareuser.user.id} />
+                                        <input type="radio" className="mx-2" name={rareuser.user.id} checked={rareuser.user.is_staff} value="admin" />
                                         <label className="form-check-label">Admin</label>
                                     </td>
                                 </tr>
