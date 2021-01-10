@@ -7,6 +7,7 @@ export const UserTable = () => {
     const { isAdmin, getUsers, users, partialyUpdateUser } = useContext(AuthContext)
     const [sortedUsers, setSortedUsers] = useState([])   
     const deleteUserModal = useRef(); 
+    const tempPopupModal = useRef();
     const history = useHistory();
 
     const [userToBeDReactivated, setUserToBeDReactivated] = useState(0)
@@ -23,6 +24,18 @@ export const UserTable = () => {
 
     const handleIsApprovedUpdate = e => {
               
+    }
+
+    const showDeactivated = e => {
+        const deactivatedUsers = users.filter((rareuser) => (rareuser.user.is_active !== true))
+        if(deactivatedUsers.length === 0){
+            tempPopupModal.current.showModal()
+        } 
+        setSortedUsers(deactivatedUsers)                     
+    }
+    const showAll = e => {
+        getUsers()
+            .then(history.push("/users"))                     
     }
 
     const handleIsActive = e => {
@@ -46,10 +59,21 @@ export const UserTable = () => {
                     <button className="deleteUser btn btn-outline-primary" onClick={handleIsActive}>Ok</button>
                     <button className="btn btn-outline-primary" onClick={e => deleteUserModal.current.close()}>Cancel</button>
                 </div>
-            </dialog>   
+            </dialog>
+            <dialog className="dialog" ref={tempPopupModal}>                
+                <h4>There are no deactivated users to show</h4>                               
+                <div className="d-flex flex-row justify-content-around align-items-center w-100">
+                    <button className="btn btn-outline-primary" onClick={e => tempPopupModal.current.close()}>Ok</button>
+                </div>
+            </dialog>
             <div className="d-flex justify-content-center mt-5">
             <h1>Users</h1>
-            </div>        
+            </div>
+            <div className="mx-3 px-3">
+            <button className="btn btn-outline-primary mr-3" onClick={showDeactivated}>Show deactivated</button>
+            <button className="btn btn-outline-primary" onClick={showAll}>Show all</button>
+            </div>  
+
             <div className="users user__table mt-5 mx-3 px-3">
                 <table className="table table-bordered table-striped">
                    
