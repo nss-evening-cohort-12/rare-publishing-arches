@@ -1,11 +1,16 @@
-import React, { useState, useContext, useEffect } from "react"
+import React, { useState, useContext, useEffect, useRef } from "react"
 import { Link, useHistory } from 'react-router-dom'
 import { AuthContext } from '../auth/AuthProvider'
 import "./Users.css"
 
 export const UserTable = () => {
     const { isAdmin, getUsers, users, partialyUpdateUser } = useContext(AuthContext)
-    const [sortedUsers, setSortedUsers] = useState([])    
+    const [sortedUsers, setSortedUsers] = useState([])   
+    const deleteUserModal = useRef(); 
+    const history = useHistory();
+
+    const [userToBeDReactivated, setUserToBeDReactivated] = useState(0)
+    const [checkboxStatus, setCheckboxStatus] = useState(true)
 
     useEffect(() => {
         getUsers()        
@@ -21,15 +26,27 @@ export const UserTable = () => {
     }
 
     const handleIsActive = e => {
-        const rareuserId = parseInt(e.target.value)
+        const rareuserId = userToBeDReactivated
         const selectedRareuser = users.find((rareuser)=> rareuser.id === rareuserId)
         const userId = selectedRareuser.user.id
-        const partialObject = {"user" : {"is_active" : e.target.checked, "id": userId} }   
+        const partialObject = {"user" : {"is_active" : checkboxStatus, "id": userId} }   
         partialyUpdateUser(rareuserId, partialObject)
+            .then(history.push("/users"))
+            .then(deleteUserModal.current.close())
     }
 
     return (
-        <div>   
+        <div>
+            <dialog className="dialog dialog--deleteUser" ref={deleteUserModal}>
+                { checkboxStatus ?
+                <h4>Are you sure you want to reactivate this user?</h4>:
+                <h4>Are you sure you want to deactivate this user?</h4>
+                }                
+                <div className="d-flex flex-row justify-content-around align-items-center w-100">
+                    <button className="deleteUser btn btn-outline-primary" onClick={handleIsActive}>Ok</button>
+                    <button className="btn btn-outline-primary" onClick={e => deleteUserModal.current.close()}>Cancel</button>
+                </div>
+            </dialog>   
             <div className="d-flex justify-content-center mt-5">
             <h1>Users</h1>
             </div>        
@@ -46,7 +63,11 @@ export const UserTable = () => {
                                         <span>{rareuser.user.first_name} {rareuser.user.first_name}</span>
                                     </td>
                                     <td>
-                                        <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={handleIsActive} />
+                                        <input type="checkbox" className= "mr-2" name="isActive" checked={rareuser.user.is_active} value={rareuser.id} onChange={(e) => {
+                                            setUserToBeDReactivated(rareuser.id)
+                                            setCheckboxStatus(e.target.checked)
+                                            deleteUserModal.current.showModal()
+                                            }} />
                                         <label className="form-check-label">Active</label>
                                     </td>
                                     
