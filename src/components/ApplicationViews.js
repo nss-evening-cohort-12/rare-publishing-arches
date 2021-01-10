@@ -14,11 +14,8 @@ import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
 import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
-<<<<<<< HEAD
 import { CategoryPost } from "./categories/CategoryPost.js"
-=======
 import { UserTable } from "./users/UserTable.js"
->>>>>>> main
 
 
 export const ApplicationViews = () => {
