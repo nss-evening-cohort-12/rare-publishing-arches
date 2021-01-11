@@ -6,6 +6,7 @@ export const PostProvider = (props) => {
     const [posts, setPosts] = useState([])
     const [searchTerms, setTerms] = useState("")
 
+
     const getPosts = () => {
         return fetch("http://localhost:8000/posts", {
             headers: {

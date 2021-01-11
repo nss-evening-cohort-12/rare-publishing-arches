@@ -1,11 +1,15 @@
 import React, { useState, useContext, useEffect } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
+import { AuthContext } from '../auth/AuthProvider'
 import Post from "./Post"
 import "./Posts.css"
 
 export const PostList = (props) => {
     const { getPosts, posts, searchTerms, getPostsByUserId, getPostsByCurrentUserId } = useContext(PostContext)
+    const { getUserById } = useContext(AuthContext)  
+    const [ userProfile, setUserProfile ] = useState({})
+
     const history = useHistory();
 
     const [filteredPosts, setFiltered] = useState([])
@@ -37,6 +41,12 @@ export const PostList = (props) => {
         setFiltered(validPosts)
     }, [posts])
 
+    useEffect(() => {
+        const userId = parseInt(props.match.params.userId)
+        getUserById(userId ? userId : localStorage.getItem("rare_user_id"))
+            .then(setUserProfile)    
+      }, [])
+
     return (
         <div>
             <div className="d-flex flex-row justify-content-end">
@@ -48,6 +58,10 @@ export const PostList = (props) => {
                 </button>
             </div>
             <div className="posts post__list mt-5 mx-5 px-3">
+                <h2>{
+                        props.location.pathname.includes('/user/posts') 
+                            && userProfile.user && `${userProfile.user.first_name} ${userProfile.user.last_name}'s Posts`
+                }</h2>
                 {
                     filteredPosts.map(post => <Post key={post.id} post={post} />)
                 }
