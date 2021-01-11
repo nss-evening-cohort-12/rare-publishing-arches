@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import { CategoryContext } from "../categories/CategoryProvider"
 import { TagContext } from "../tags/TagProvider"
-import { findByTestId } from "@testing-library/react"
 
 
 export const PostForm = (props) => {
@@ -119,7 +118,7 @@ export const PostForm = (props) => {
                 image_url: post.image_url,
                 tags: postTagsArray
             })
-                .then((newlyCreatedPost) => props.history.push(`/posts/${newlyCreatedPost.id}` ))
+                .then((newlyCreatedPost) => props.history.push(`/posts/${newlyCreatedPost.id}`))
         }
 
     }

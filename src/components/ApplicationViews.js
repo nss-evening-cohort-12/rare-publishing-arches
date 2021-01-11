@@ -18,6 +18,7 @@ import { CategoryPost } from "./categories/CategoryPost.js"
 import { UserTable } from "./users/UserTable.js"
 import { UserProfile } from "./users/UserProfile.js"
 
+
 export const ApplicationViews = () => {
     const { isAdmin } = useContext(AuthContext);
 
