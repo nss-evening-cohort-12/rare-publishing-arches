@@ -14,9 +14,9 @@ import { CommentProvider } from "./comments/CommentProvider.js"
 import { PostComments } from "./comments/PostComments.js"
 import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
+import { CategoryPost } from "./categories/CategoryPost.js"
 import { UserTable } from "./users/UserTable.js"
 import { UserProfile } from "./users/UserProfile.js"
-
 
 export const ApplicationViews = () => {
     const { isAdmin } = useContext(AuthContext);
@@ -33,7 +33,8 @@ export const ApplicationViews = () => {
                             <Route exact path="/">
                                 <PostList />
                             </Route>
-                            <Route path="/user/posts" render={props => <PostList {...props} />} />
+                            <Route exact path="/user/posts" render={props => <PostList {...props} />} />
+                            <Route path="/user/posts/:userId(\d+)" render={props => <PostList {...props} />} />
                             <Route exact path="/posts" render={(props) => {
                                 return <>
                                     <main className="postContainer">
@@ -97,6 +98,19 @@ export const ApplicationViews = () => {
                         }
                         </>
                     }} />
+
+                    <Route path="/categories/:categoryId(\d+)" render={props => {
+                        return <>
+                        {
+                        isAdmin
+                            ? <main className="categoryPostContainer">
+                                <CategoryPost {...props} />
+                            </main>
+                            : <Redirect to="/" />
+                        }
+                        </>
+                    }} />
+                        
                 </CategoryProvider>
                 <Route exact path='/users' render={() => {
                         return <>
