@@ -16,6 +16,7 @@ import { NavBar } from "./nav/NavBar"
 import { AuthContext } from "./auth/AuthProvider.js"
 import { CategoryPost } from "./categories/CategoryPost.js"
 import { UserTable } from "./users/UserTable.js"
+import { UserProfile } from "./users/UserProfile.js"
 
 
 export const ApplicationViews = () => {
@@ -33,7 +34,8 @@ export const ApplicationViews = () => {
                             <Route exact path="/">
                                 <PostList />
                             </Route>
-                            <Route path="/user/posts" render={props => <PostList {...props} />} />
+                            <Route exact path="/user/posts" render={props => <PostList {...props} />} />
+                            <Route path="/user/posts/:userId(\d+)" render={props => <PostList {...props} />} />
                             <Route exact path="/posts" render={(props) => {
                                 return <>
                                     <main className="postContainer">
@@ -122,6 +124,10 @@ export const ApplicationViews = () => {
                         }
                         </>
                     }} />
+                <Route path="/users/:userId(\d+)" render={
+                        props => <UserProfile {...props} />
+                    } 
+                />
             </main>
     </>
 }
