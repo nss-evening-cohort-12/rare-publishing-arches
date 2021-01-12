@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
-import { Reaction } from "../reactions/Reaction"
+import { PostReaction } from "../reactions/PostReaction"
 import { ReactionContext } from "../reactions/ReactionProvider"
 import "./Posts.css"
 
@@ -14,6 +14,8 @@ export const PostDetails = (props) => {
     const [post, setPost] = useState({})
 
     const [reactionCounts, setReactionCounts] = useState([])
+    const [showReactionSelector, setShowReactionSelector] = useState(false)
+    const [currentUserPostReactions, setCurrentUserPostReactions] = useState([])
 
     useEffect(() => {
         const postId = parseInt(props.match.params.postId)
@@ -37,6 +39,7 @@ export const PostDetails = (props) => {
         // Loop over each reaction on the post and count the unique reactions
         reactionsArray.forEach(reaction => {
             reactionCounts[reaction.reaction.id].count += 1
+            // reactionCounts[reaction.reaction.id].users.push(reaction.user.id)
         })
 
         Object.keys(reactionCounts).forEach(reaction => {
@@ -50,6 +53,27 @@ export const PostDetails = (props) => {
     useEffect(() => {
         post.reactions && getReactionCounts(post.reactions)
     }, [post])
+
+    useEffect(() => {
+        const body = { "token": `${localStorage.getItem("rare_user_id")}` }
+        fetch("http://localhost:8000/get_current_user", {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
+            },
+            body: JSON.stringify(body)
+        })
+            .then(res => res.json())
+            .then(res => {
+                const userReactions = [];
+                post.reactions && post.reactions.forEach(postReaction => {
+                    if (postReaction.user.id === res.user_id) {
+                        userReactions.push(postReaction.reaction.id)
+                    }
+                })
+                setCurrentUserPostReactions(userReactions);
+            })
+    }, [reactionCounts])
 
     return (
         <section className="post d-flex flex-row">
@@ -85,14 +109,30 @@ export const PostDetails = (props) => {
                         <small className="d-block"> By {post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</small>
                     </div>
                     <div>
-                        <button className="btn btn-outline-primary" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
+                        <button className="btn btn-outline-primary mt-0" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
                     </div>
-                    <div className="d-flex align-items-center border border-primary rounded px-3 h-100">
-                        {post.reactions && post.reactions.length > 0 ? (
-                            reactionCounts && reactionCounts.map(reaction => (
-                                <Reaction key={reaction.id} reaction={reaction} />
-                            ))
-                        ) : ('No Reactions Yet')}
+                    <div className="d-flex flex-column">
+                        <div className="d-flex align-items-center border border-primary rounded px-3 h-100 reaction__container" onClick={() => { setShowReactionSelector(prev => !prev) }}>
+                            {post.reactions && post.reactions.length > 0 ? (
+                                reactionCounts && reactionCounts.map(reaction => (
+                                    <PostReaction key={reaction.id} reaction={reaction} />
+                                ))
+                            ) : ('No Reactions Yet')}
+                        </div>
+                        {showReactionSelector ? (
+                            <div className="text-center">
+                                <strong>Reaction Selector</strong>
+                                <div className="d-flex flex-column">
+                                    {reactionsList && reactionsList.map(reaction => (
+                                        // <div className="d-flex flex-row ml-5">
+                                        <div className={`d-flex flex-row ml-5 ${currentUserPostReactions && currentUserPostReactions.find(rc => rc === reaction.id) ? 'reaction__highlight' : ''}`}>
+                                            <img className="mr-4" height="25" width="25" src={reaction.image_url} alt="test" />
+                                            <span>{reaction.label}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : ('')}
                     </div>
                 </div>
                 <div className="post__content">
