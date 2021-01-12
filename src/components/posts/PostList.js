@@ -42,7 +42,7 @@ export const PostList = (props) => {
     }, [posts])
 
     useEffect(() => {
-        const userId = parseInt(props.match.params.userId)
+        const userId = props.match && parseInt(props.match.params.userId)
         getUserById(userId ? userId : localStorage.getItem("rare_user_id"))
             .then(setUserProfile)    
       }, [])
@@ -59,7 +59,7 @@ export const PostList = (props) => {
             </div>
             <div className="posts post__list mt-5 mx-5 px-3">
                 <h2>{
-                        props.location.pathname.includes('/user/posts') 
+                        props.location && props.location.pathname.includes('/user/posts') 
                             && userProfile.user && `${userProfile.user.first_name} ${userProfile.user.last_name}'s Posts`
                 }</h2>
                 {
