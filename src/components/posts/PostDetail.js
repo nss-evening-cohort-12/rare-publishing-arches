@@ -2,10 +2,12 @@ import React, { useContext, useEffect, useState, useRef } from "react"
 import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import { Reaction } from "../reactions/Reaction"
+import { ReactionContext } from "../reactions/ReactionProvider"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
     const { getPostById, releasePost } = useContext(PostContext)
+    const { reactionsList, getReactions } = useContext(ReactionContext)
     const history = useHistory();
     const deletePostModal = useRef();
 
@@ -17,6 +19,10 @@ export const PostDetails = (props) => {
         const postId = parseInt(props.match.params.postId)
         getPostById(postId)
             .then(setPost)
+    }, [])
+
+    useEffect(() => {
+        getReactions()
     }, [])
 
     const getReactionCounts = (reactionsArray) => {
