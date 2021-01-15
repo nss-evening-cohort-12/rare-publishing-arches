@@ -7,8 +7,8 @@ import "./Posts.css"
 
 export const PostList = (props) => {
     const { getPosts, posts, searchTerms, getPostsByUserId, getPostsByCurrentUserId, releasePost } = useContext(PostContext)
-    const { getUserById } = useContext(AuthContext)  
-    const [ userProfile, setUserProfile ] = useState({})
+    const { getUserById } = useContext(AuthContext)
+    const [userProfile, setUserProfile] = useState({})
 
     const history = useHistory()
     const deletePostModal = useRef()
@@ -33,7 +33,7 @@ export const PostList = (props) => {
             // get all posts
             getPosts()
         }
-    })
+    }, [])
 
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
@@ -51,8 +51,8 @@ export const PostList = (props) => {
     useEffect(() => {
         const userId = props.match && parseInt(props.match.params.userId)
         getUserById(userId ? userId : localStorage.getItem("rare_user_id"))
-            .then(setUserProfile)    
-      }, [])
+            .then(setUserProfile)
+    }, [])
 
 
     return (
@@ -74,8 +74,8 @@ export const PostList = (props) => {
             </dialog>
             <div className="posts post__list mt-5 mx-5 px-3">
                 <h2>{
-                        props.location && props.location.pathname.includes('/user/posts') 
-                            && userProfile.user && `${userProfile.user.first_name} ${userProfile.user.last_name}'s Posts`
+                    props.location && props.location.pathname.includes('/user/posts')
+                    && userProfile.user && `${userProfile.user.first_name} ${userProfile.user.last_name}'s Posts`
                 }</h2>
                 {
                     filteredPosts.map(post => <Post key={post.id} post={post} setDeletePostId={setDeletePostId} deletePostModal={deletePostModal} />)
