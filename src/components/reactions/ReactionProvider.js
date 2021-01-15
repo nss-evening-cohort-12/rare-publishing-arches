@@ -15,9 +15,32 @@ export const ReactionProvider = (props) => {
             .then(res => setReactionsList(res.results))
     }
 
+    const createPostReaction = (postDetails) => {
+        return fetch("http://localhost:8000/postreactions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postDetails)
+        })
+            .then(res => res.json())
+    }
+
+    const deletePostReaction = (postDetails) => {
+        return fetch("http://localhost:8000/postreactions", {
+            method: "DELETE",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(postDetails)
+        })
+    }
+
     return (
         <ReactionContext.Provider value={{
-            reactionsList, getReactions
+            reactionsList, getReactions, createPostReaction, deletePostReaction
         }}>
             {props.children}
         </ReactionContext.Provider>

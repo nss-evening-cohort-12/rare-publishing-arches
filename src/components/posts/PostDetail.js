@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
 import { PostReaction } from "../reactions/PostReaction"
 import { ReactionContext } from "../reactions/ReactionProvider"
+import { ReactionSelector } from "../reactions/ReactionSelector"
 import "./Posts.css"
 
 export const PostDetails = (props) => {
@@ -122,15 +123,14 @@ export const PostDetails = (props) => {
                         {showReactionSelector ? (
                             <div className="text-center">
                                 <strong>Reaction Selector</strong>
-                                <div className="d-flex flex-column">
-                                    {reactionsList && reactionsList.map(reaction => (
-                                        // <div className="d-flex flex-row ml-5">
-                                        <div className={`d-flex flex-row ml-5 ${currentUserPostReactions && currentUserPostReactions.find(rc => rc === reaction.id) ? 'reaction__highlight' : ''}`}>
-                                            <img className="mr-4" height="25" width="25" src={reaction.image_url} alt="test" />
-                                            <span>{reaction.label}</span>
-                                        </div>
-                                    ))}
-                                </div>
+                                <ReactionSelector
+                                    reactionsList={reactionsList} currentUserPostReactions={currentUserPostReactions}
+                                    setCurrentUserPostReactions={setCurrentUserPostReactions}
+                                    getReactions={getReactions}
+                                    getReactionCounts={getReactionCounts}
+                                    getPostById={getPostById}
+                                    setPost={setPost}
+                                />
                             </div>
                         ) : ('')}
                     </div>
