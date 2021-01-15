@@ -101,18 +101,19 @@ export const ApplicationViews = () => {
                         }
                     </>
                 }} />
-
-                <Route path="/categories/:categoryId(\d+)" render={props => {
-                    return <>
-                        {
-                            isAdmin
-                                ? <main className="categoryPostContainer">
-                                    <CategoryPost {...props} />
-                                </main>
-                                : <Redirect to="/" />
-                        }
-                    </>
-                }} />
+                <PostProvider>
+                    <Route path="/categories/:categoryId(\d+)" render={props => {
+                        return <>
+                            {
+                                isAdmin
+                                    ? <main className="categoryPostContainer">
+                                        <CategoryPost {...props} />
+                                    </main>
+                                    : <Redirect to="/" />
+                            }
+                        </>
+                    }} />
+                </PostProvider>
 
             </CategoryProvider>
             <Route exact path='/users' render={() => {
