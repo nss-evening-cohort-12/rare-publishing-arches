@@ -113,12 +113,14 @@ export const PostDetails = (props) => {
                         <button className="btn btn-outline-primary mt-0" onClick={() => history.push(`/post/${post.id}/comments`)}>View Comments</button>
                     </div>
                     <div className="d-flex flex-column">
-                        <div className="d-flex align-items-center border border-primary rounded px-3 h-100 reaction__container" onClick={() => { setShowReactionSelector(prev => !prev) }}>
-                            {post.reactions && post.reactions.length > 0 ? (
-                                reactionCounts && reactionCounts.map(reaction => (
-                                    <PostReaction key={reaction.id} reaction={reaction} />
-                                ))
-                            ) : ('No Reactions Yet')}
+                        <div className="d-flex flex-column align-items-center border border-primary rounded px-3 h-100 reaction__container" onClick={() => { setShowReactionSelector(prev => !prev) }}>
+                            <div className="d-flex flex-row">
+                                {post.reactions && post.reactions.length > 0 ? (
+                                    reactionCounts && reactionCounts.map(reaction => (
+                                        <PostReaction key={reaction.id} reaction={reaction} />
+                                    ))
+                                ) : ('No Reactions Yet.')}</div>
+                            <div>Click here to {showReactionSelector ? 'hide' : 'show'} reaction picker</div>
                         </div>
                         {showReactionSelector ? (
                             <div className="text-center">
