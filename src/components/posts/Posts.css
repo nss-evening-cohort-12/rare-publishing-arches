@@ -64,3 +64,11 @@
     height: 50px;
     width: 50px;
 }
+
+.rounded-pill {
+    margin-right: 6rem;
+}
+
+.posticon {
+    margin: 0 0 0 .50rem;
+}
