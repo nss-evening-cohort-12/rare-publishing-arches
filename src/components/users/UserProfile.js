@@ -4,7 +4,8 @@ import { AuthContext } from '../auth/AuthProvider'
 import "./Users.css"
 
 export const UserProfile = (props) => {
-    const { getUserById, subscriptions, getSubscriptions, subscribeToAuthor, unsubscribeToAuthor } = useContext(AuthContext)  
+    const { getUserById, subscriptions, getSubscriptions, subscribeToAuthor, unsubscribeToAuthor, 
+      getSubscriberCount, subscriberCount, getMyUserId, myUserId } = useContext(AuthContext)  
     const [ userProfile, setUserProfile ] = useState({})
 
     useEffect(() => {
@@ -14,7 +15,9 @@ export const UserProfile = (props) => {
     }, [])
 
     useEffect(() => {
+      getMyUserId()
       getSubscriptions()
+      getSubscriberCount()
     }, [])
 
     const handleSubscribeClick = () => {
@@ -45,13 +48,18 @@ export const UserProfile = (props) => {
               </h4>
             </div>
             <div>
+            { 
+                userProfile.user && userProfile.user.id === myUserId
+                  ? `${subscriberCount} active subscribers`
+                  :
               <button className="btn btn-primary ml-5" id={userProfile.user && userProfile.user.id} onClick={handleSubscribeClick}>
                 { 
                  userProfile.user && subscriptions && subscriptions.find(author => author.author_id === userProfile.user.id && author.ended_on === null) 
-                  ? "Unsubscribe"
-                  : "Subscribe"
+                    ? "Unsubscribe"
+                    : "Subscribe"
                 }
               </button>
+            }
             </div>
           </div>
         </div>
