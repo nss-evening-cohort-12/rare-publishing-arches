@@ -11,17 +11,17 @@ export const UserProfile = (props) => {
       const userId = parseInt(props.match.params.userId)
       getUserById(userId)
         .then(setUserProfile)   
-    }, [props.match.params.userId, getUserById])
+    }, [])
 
     useEffect(() => {
       getSubscriptions()
-    }, [getSubscriptions])
+    }, [])
 
     const handleSubscribeClick = () => {
-      const is_subscribed = subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id)
+      const is_subscribed = subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id && author.ended_on === null) 
       is_subscribed 
-        ? subscribeToAuthor(userProfile.user && userProfile.user.id)
-        : unsubscribeToAuthor(is_subscribed.id)
+        ? unsubscribeToAuthor(is_subscribed.id)
+        : subscribeToAuthor(userProfile.user.id)
     }
 
 
@@ -47,9 +47,9 @@ export const UserProfile = (props) => {
             <div>
               <button className="btn btn-primary ml-5" id={userProfile.user && userProfile.user.id} onClick={handleSubscribeClick}>
                 { 
-                  subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id) 
-                    ? "Unsubscribe"
-                    : "Subscribe"
+                 userProfile.user && subscriptions && subscriptions.find(author => author.author_id === userProfile.user.id && author.ended_on === null) 
+                  ? "Unsubscribe"
+                  : "Subscribe"
                 }
               </button>
             </div>

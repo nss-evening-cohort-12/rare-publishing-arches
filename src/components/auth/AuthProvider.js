@@ -65,23 +65,24 @@ export const AuthProvider = (props) => {
         return fetch("http://localhost:8000/subscriptions", {
             method: "POST",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
             },
-            body: JSON.stringify({"author_id": author_id})
+            body: JSON.stringify({author_id: author_id})
         })
             .then(getSubscriptions)
-            .then(res => res.json())
-            .then(setSubscriptions)
     }
 
     const unsubscribeToAuthor = (id) => {
-        return fetch("http://localhost:8000/subscriptions", {
+        return fetch(`http://localhost:8000/subscriptions/${id}`, {
+            method: "PUT",
             headers: {
+                "Content-Type": "application/json",
                 "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
-            }
+            },
+            body: JSON.stringify({ended_on: true})
         })
-            .then(res => res.json())
-            .then(setSubscriptions)
+            .then(getSubscriptions)
     }
 
     return (
