@@ -74,7 +74,7 @@ export const AuthProvider = (props) => {
         })
             .then(res => res.json())
             .then(res => {
-                fetch(`http://localhost:8000/subscriptions?follower=${res.user_id}`, {
+                fetch(`http://localhost:8000/subscriptions?author=${res.user_id}`, {
                     headers: {
                         "Authorization": `Token ${localStorage.getItem("rare_user_id")}`
                     }
