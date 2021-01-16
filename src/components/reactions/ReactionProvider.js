@@ -5,6 +5,18 @@ export const ReactionContext = React.createContext()
 export const ReactionProvider = (props) => {
     const [reactionsList, setReactionsList] = useState([])
 
+    const createReaction = (reactionDetails) => {
+        return fetch("http://localhost:8000/reactions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Token ${localStorage.getItem("rare_user_id")}`,
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reactionDetails)
+        })
+            .then(res => res.json())
+    }
+
     const getReactions = () => {
         return fetch("http://localhost:8000/reactions", {
             headers: {
@@ -40,7 +52,7 @@ export const ReactionProvider = (props) => {
 
     return (
         <ReactionContext.Provider value={{
-            reactionsList, getReactions, createPostReaction, deletePostReaction
+            reactionsList, getReactions, createPostReaction, deletePostReaction, createReaction
         }}>
             {props.children}
         </ReactionContext.Provider>
