@@ -4,14 +4,25 @@ import { AuthContext } from '../auth/AuthProvider'
 import "./Users.css"
 
 export const UserProfile = (props) => {
-    const { getUserById } = useContext(AuthContext)  
+    const { getUserById, subscriptions, getSubscriptions, subscribeToAuthor, unsubscribeToAuthor } = useContext(AuthContext)  
     const [ userProfile, setUserProfile ] = useState({})
 
     useEffect(() => {
       const userId = parseInt(props.match.params.userId)
       getUserById(userId)
         .then(setUserProfile)   
-    }, [])
+    }, [props.match.params.userId, getUserById])
+
+    useEffect(() => {
+      getSubscriptions()
+    }, [getSubscriptions])
+
+    const handleSubscribeClick = () => {
+      const is_subscribed = subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id)
+      is_subscribed 
+        ? subscribeToAuthor(userProfile.user && userProfile.user.id)
+        : unsubscribeToAuthor(is_subscribed.id)
+    }
 
 
     return (
@@ -34,7 +45,13 @@ export const UserProfile = (props) => {
               </h4>
             </div>
             <div>
-              <button className="btn btn-primary ml-5">Subscribed</button>
+              <button className="btn btn-primary ml-5" id={userProfile.user && userProfile.user.id} onClick={handleSubscribeClick}>
+                { 
+                  subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id) 
+                    ? "Unsubscribe"
+                    : "Subscribe"
+                }
+              </button>
             </div>
           </div>
         </div>
