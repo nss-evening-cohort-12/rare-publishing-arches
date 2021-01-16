@@ -1,11 +1,13 @@
 import React, { useState, useContext, useEffect, useRef } from "react"
 import { Link, useHistory } from 'react-router-dom'
 import { PostContext } from "./PostProvider"
+import { TagContext } from "../tags/TagProvider"
 import { AuthContext } from '../auth/AuthProvider'
 import "./Posts.css"
 
 export const PostTable = () => {
     const { getPosts, posts, searchTerms, releasePost, partialyUpdatePost } = useContext(PostContext)
+    const { tags, searchTags } = useContext(TagContext)
     const { isAdmin } = useContext(AuthContext)
     const history = useHistory();
     const deletePostModal = useRef();
@@ -43,6 +45,11 @@ export const PostTable = () => {
         setFiltered(validPosts)
     }, [searchTerms])
 
+    useEffect(() => {
+        posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
+        const matchingTags = tags.filter(tag => tag.label.includes(searchTags))
+        let valid
+    })
 
     useEffect(() => {
         posts.sort((a, b) => (a.publication_date > b.publication_date) ? -1 : 1)
@@ -113,7 +120,9 @@ export const PostTable = () => {
                                     <td>{post.rareuser && post.rareuser.user.first_name} {post.rareuser && post.rareuser.user.last_name}</td>
                                     <td>{post.publication_date}</td>
                                     <td>{post.category && post.category.label}</td>
-                                    <td>{post.tags && post.tags.label}</td>
+                                    <td>{post.tags && post.tags.map(tag => (
+                                        <div key={tag.id}>{tag.label}</div>
+                                    ))}</td>
                                     {isAdmin ? (<td>
                                         <input type="checkbox" name="isApproved" checked={post.approved} value={post.id} onChange={handleIsApprovedUpdate} />
                                         </td>) : (<></>) }
