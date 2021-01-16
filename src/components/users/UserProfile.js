@@ -18,10 +18,10 @@ export const UserProfile = (props) => {
     }, [])
 
     const handleSubscribeClick = () => {
-      const is_subscribed = subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id && author.ended_on === null) 
+      const is_subscribed = subscriptions && userProfile.user && subscriptions.find(author => author.author_id === userProfile.user.id) 
       is_subscribed 
-        ? unsubscribeToAuthor(is_subscribed.id)
-        : subscribeToAuthor(userProfile.user.id)
+          ? unsubscribeToAuthor(is_subscribed.id)
+          : subscribeToAuthor(userProfile.user.id)
     }
 
 
