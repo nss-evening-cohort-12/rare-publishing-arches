@@ -1,11 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { AuthContext } from '../auth/AuthProvider'
 import { ReactionContext } from "./ReactionProvider"
+import { ReactionForm } from "./ReactionForm"
 
 export const ReactionSelector = (props) => {
     const params = useParams()
     const { createPostReaction, deletePostReaction } = useContext(ReactionContext)
+    const { isAdmin } = useContext(AuthContext);
     const { reactionsList, currentUserPostReactions, setCurrentUserPostReactions, getReactions, getReactionCounts, getPostById, setPost } = props;
+
+    const [isReactionFormVisible, setIsReactionFormVisible] = useState(false)
 
     const handleUpdateCurrentUserPostReactions = (reactionId) => {
         const updatedPostReactions = currentUserPostReactions
@@ -40,6 +45,20 @@ export const ReactionSelector = (props) => {
                     <span>{reaction.label}</span>
                 </div>
             ))}
+            {isAdmin ? (
+                <>
+                    <div
+                        className="underline text-primary cursor__pointer"
+                        onClick={() => { setIsReactionFormVisible(prev => !prev) }}
+                    ><u>Create New Reaction</u></div>
+                    {isReactionFormVisible ? (
+                        <ReactionForm
+                            setIsReactionFormVisible={setIsReactionFormVisible}
+                            getReactions={getReactions}
+                        />
+                    ) : ('')}
+                </>
+            ) : ('')}
         </div>
     )
 }
